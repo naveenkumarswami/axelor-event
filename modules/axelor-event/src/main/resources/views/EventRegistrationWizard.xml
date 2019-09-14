@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
+
+
+  <form name="event-registration-form-popup" title="Event Registration" model="com.axelor.event.db.EventRegistration">
+    <panel title="Overview">
+      <field name="importFile" type="many-to-one" x-target="com.axelor.meta.db.MetaFile"
+        x-target-name="metaFile" widget="binary-link"/>
+      <button name="import" title="Import" onClick="action-for-import-file-on-click,close" showIf="importFile"/>
+    </panel>
+  </form>
+
+  <action-method name="action-for-import-file-on-click">
+    <call class="com.axelor.event.web.EventController" method="setRegistration" />
+  </action-method>
+
+</object-views>

@@ -15,8 +15,8 @@
     <integer name="capacity" title="Capacity"></integer>
     <decimal name="eventFees" title="Event Fees"></decimal>
     <string name="description" title="Description" large="true"></string>
-    <one-to-many name="discounts" title="Discounts" ref="com.axelor.event.db.Discount" />
-    <one-to-many name="eventRegistrations" title="Event Registrations" ref="com.axelor.event.db.EventRegistration" />
+    <one-to-many name="discountList" title="Discounts" ref="com.axelor.event.db.Discount" />
+    <one-to-many name="eventRegistrationList" title="Event Registrations" ref="com.axelor.event.db.EventRegistration" />
     <integer name="totalEntry" title="Total Entry" readonly="true"></integer>
     <decimal name="amountCollected" title="Amount Collected" readonly="true"></decimal>
     <decimal name="totalDiscount" title="Total Discount" readonly="true"></decimal>

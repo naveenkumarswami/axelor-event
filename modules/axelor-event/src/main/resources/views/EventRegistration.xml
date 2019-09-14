@@ -10,7 +10,7 @@
   </grid>
 
   <form model="com.axelor.event.db.EventRegistration" title="Event Registration" name="eventRegistration-form">
-    <panel if="eventValue==1">
+    <panel if="eventValue">
       <field name="event" colSpan="10" form-view="event-form"></field>
     </panel>
 

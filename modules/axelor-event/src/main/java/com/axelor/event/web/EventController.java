@@ -1,19 +1,66 @@
 package com.axelor.event.web;
 
+
+import java.io.File;
+import java.util.List;
 import com.axelor.event.db.Event;
+import com.axelor.event.db.EventRegistration;
 import com.axelor.event.exception.IExceptionMessage;
 import com.axelor.i18n.I18n;
+import com.axelor.meta.MetaFiles;
+import com.axelor.meta.db.MetaFile;
+import com.axelor.meta.db.repo.MetaFileRepository;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
+import com.google.common.io.Files;
+import com.google.inject.Inject;
+import java.util.Map;
 
 public class EventController {
+  
+  @Inject MetaFileRepository metaFileRepo;
+
+  @Inject MetaFiles metaFiles;
 
   public void validateRegistration(ActionRequest request, ActionResponse response) {
 
     Event event = request.getContext().asType(Event.class);
     
-    if (event.getCapacity() < event.getEventRegistrations().size()) {
+    if (event.getCapacity() < event.getEventRegistrationList().size()) {
       response.setError(I18n.get(IExceptionMessage.REGISTRATION_EXVEEDS_CAPACITY));
     }
   }
+  
+  public void updateAmount(ActionRequest request, ActionResponse response) {
+
+    Event event = request.getContext().asType(Event.class);
+    List<EventRegistration> eventRegistrationsList = event.getEventRegistrationList();
+    
+  }
+  
+  public void setRegistration(ActionRequest request, ActionResponse response) {
+
+    Event event = request.getContext().asType(Event.class);
+    
+    Integer id = (Integer) request.getContext().get("showRecords");
+   
+    MetaFile metaFile =
+        metaFileRepo.find(
+            Long.valueOf(((Map) request.getContext().get("importFile")).get("id").toString()));
+    File csvFile = MetaFiles.getPath(metaFile).toFile();
+    
+    if(Files.getFileExtension(csvFile.getName()).equals("csv")) {
+      
+      
+      
+      response.setFlash(I18n.get(IExceptionMessage.IMPORT_COMPLETED_MESSAGE));
+    }
+    else
+    {
+      response.setFlash(I18n.get(IExceptionMessage.INVALID_DATA_FORMAT_ERROR));
+    }
+    
+
+  }
+  
 }

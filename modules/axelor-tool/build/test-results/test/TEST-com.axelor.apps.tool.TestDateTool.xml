@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.axelor.apps.tool.TestDateTool" tests="5" skipped="0" failures="0" errors="0" timestamp="2019-09-14T08:17:58" hostname="localhost.localdomain" time="0.013">
+<testsuite name="com.axelor.apps.tool.TestDateTool" tests="5" skipped="0" failures="0" errors="0" timestamp="2019-09-14T13:03:52" hostname="localhost.localdomain" time="0.014">
   <properties/>
-  <testcase name="testGetNbDay" classname="com.axelor.apps.tool.TestDateTool" time="0.009"/>
+  <testcase name="testGetNbDay" classname="com.axelor.apps.tool.TestDateTool" time="0.012"/>
   <testcase name="testNextOccurency" classname="com.axelor.apps.tool.TestDateTool" time="0.0"/>
-  <testcase name="testLastOccurency" classname="com.axelor.apps.tool.TestDateTool" time="0.003"/>
+  <testcase name="testLastOccurency" classname="com.axelor.apps.tool.TestDateTool" time="0.0"/>
   <testcase name="testIsProrata" classname="com.axelor.apps.tool.TestDateTool" time="0.0"/>
   <testcase name="testGetNbFullMonth" classname="com.axelor.apps.tool.TestDateTool" time="0.0"/>
-  <system-out><![CDATA[13:47:58.983 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2019-09-14 - 2019-09-14 (mois de 30 jours ? false) : 1
-13:47:58.987 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-09-01 - 2011-09-30 (mois de 30 jours ? false) : 30
-13:47:58.987 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-02-02 - 2011-02-27 (mois de 30 jours ? true) : 26
-13:47:58.987 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-02-02 - 2011-02-27 (mois de 30 jours ? false) : 26
-13:47:58.987 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-02-27 - 2011-02-02 (mois de 30 jours ? false) : -26
-13:47:58.987 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-02-27 - 2011-02-02 (mois de 30 jours ? true) : -26
-13:47:58.987 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-02-01 - 2011-02-28 (mois de 30 jours ? true) : 30
-13:47:58.987 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-07-30 - 2011-07-31 (mois de 30 jours ? true) : 1
-13:47:58.987 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-07-12 - 2011-09-05 (mois de 30 jours ? true) : 54
-13:47:58.987 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-07-15 - 2011-08-14 (mois de 30 jours ? true) : 30
-13:47:58.988 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-07-01 - 2011-07-31 (mois de 30 jours ? true) : 30
-13:47:58.988 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2012-02-29 - 2012-03-30 (mois de 30 jours ? true) : 31
-13:47:58.988 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-02-28 - 2011-03-30 (mois de 30 jours ? true) : 31
-13:47:58.988 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2012-02-28 - 2012-03-30 (mois de 30 jours ? true) : 33
-13:47:58.988 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-12-31 - 2012-06-30 (mois de 30 jours ? true) : 181
-13:47:58.988 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-12-09 - 2011-10-02 (mois de 30 jours ? true) : -68
+  <system-out><![CDATA[18:33:52.287 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2019-09-14 - 2019-09-14 (mois de 30 jours ? false) : 1
+18:33:52.293 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-09-01 - 2011-09-30 (mois de 30 jours ? false) : 30
+18:33:52.293 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-02-02 - 2011-02-27 (mois de 30 jours ? true) : 26
+18:33:52.293 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-02-02 - 2011-02-27 (mois de 30 jours ? false) : 26
+18:33:52.293 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-02-27 - 2011-02-02 (mois de 30 jours ? false) : -26
+18:33:52.293 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-02-27 - 2011-02-02 (mois de 30 jours ? true) : -26
+18:33:52.293 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-02-01 - 2011-02-28 (mois de 30 jours ? true) : 30
+18:33:52.293 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-07-30 - 2011-07-31 (mois de 30 jours ? true) : 1
+18:33:52.294 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-07-12 - 2011-09-05 (mois de 30 jours ? true) : 54
+18:33:52.294 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-07-15 - 2011-08-14 (mois de 30 jours ? true) : 30
+18:33:52.294 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-07-01 - 2011-07-31 (mois de 30 jours ? true) : 30
+18:33:52.294 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2012-02-29 - 2012-03-30 (mois de 30 jours ? true) : 31
+18:33:52.294 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-02-28 - 2011-03-30 (mois de 30 jours ? true) : 31
+18:33:52.294 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2012-02-28 - 2012-03-30 (mois de 30 jours ? true) : 33
+18:33:52.294 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-12-31 - 2012-06-30 (mois de 30 jours ? true) : 181
+18:33:52.294 [Test worker] DEBUG com.axelor.apps.tool.date.DateTool - Nombre de jour entre 2011-12-09 - 2011-10-02 (mois de 30 jours ? true) : -68
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

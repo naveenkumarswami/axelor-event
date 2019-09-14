@@ -17,6 +17,14 @@
 
   <form model="com.axelor.event.db.Event" title="Event" name="event-form"
     onSave="action-method-event-validate-registration-on-save">
+
+    <toolbar>
+      <button name="importRegistration" title="Import Registration" onClick="action-view-for-registration-popup" showIf="id" />
+      <button name="print" title="print Event" showTitle="false"
+        onClick="action-report-print-event-on-click"
+        icon="fa-print" showIf="id" />
+    </toolbar>
+
     <panel title="Event OverView">
       <field name="reference"></field>
       <field name="startDate" onChange="action-validate-date"></field>
@@ -25,10 +33,11 @@
       <field name="registrationOpen" onChange="action-validate-date"></field>
       <field name="registrationClose" onChange="action-validate-date"></field>
       <field name="capacity"></field>
-      <field name="eventFees"></field>
+      <field name="eventFees" onChange="action-method-for-amount-in-event-registration"></field>
       <field name="description" colSpan="4"></field>
-      <field name="discounts" colSpan="10"></field>
-      <field name="eventRegistrations" form-view="eventRegistration-form" colSpan="10" onChange="action-attrs-for-totalEntry"></field>
+      <field name="discountList" colSpan="10" onChange="action-method-for-amount-in-event-registration"></field>
+      <field name="eventRegistrationList" form-view="eventRegistration-form" colSpan="10"
+        onChange="action-attrs-for-totalEntry"></field>
       <field name="totalEntry"></field>
       <field name="amountCollected"></field>
       <field name="totalDiscount"></field>
@@ -40,7 +49,7 @@
   </action-method>
 
   <action-attrs name="action-attrs-for-totalEntry">
-    <attribute name="value" for="totalEntry" expr="eval: eventRegistrations.size()" />
+    <attribute name="value" for="totalEntry" expr="eval: eventRegistrationList.size()" />
   </action-attrs>
 
   <action-validate name="action-validate-date">
@@ -48,8 +57,21 @@
       if="startDate!= null &amp;&amp; endDate!=null &amp;&amp;  startDate &gt; endDate" />
     <error message="Registration Open date should not be ahead of Registration Close Date"
       if="registrationOpen!= null &amp;&amp; registrationClose!=null &amp;&amp;  registrationOpen &gt; registrationClose" />
-    <error message="Registration close date must be before event start date" 
-    if="registrationClose!=null &amp;&amp; startDate!= null &amp;&amp; registrationClose &gt; startDate.date"/>
+    <error message="Registration close date must be before event start date"
+      if="registrationClose!=null &amp;&amp; startDate!= null &amp;&amp; registrationClose &gt; startDate.date" />
   </action-validate>
+
+  <action-method name="action-method-for-amount-in-event-registration">
+    <call class="com.axelor.event.web.EventController" method="updateAmount" />
+  </action-method>
+  
+  <action-view name="action-view-for-registration-popup" title="event Registration Popup" model="com.axelor.event.db.Event">
+    <view type="form" name="event-registration-form-popup" />
+    <view-param name="popup" value="true" />
+    <view-param name="show-toolbar" value="false" />
+    <view-param name="show-confirm" value="false" />
+    <view-param name="popup-save" value="false" />
+    <context name="showRecord" expr="eval: id" />
+  </action-view>
 
 </object-views>

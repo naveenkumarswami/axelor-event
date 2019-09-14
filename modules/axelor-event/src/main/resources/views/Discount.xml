@@ -11,13 +11,17 @@
   <form model="com.axelor.event.db.Discount" title="Discount" name="discount-form" cols="12">
     <panel title="Discount">
       <field name="beforeDays" onChange="action-validate-before-days"></field>
-      <field name="discountPercent"></field>
+      <field name="discountPercent" onChange="action-atts-for-set-discount-amount"></field>
       <field name="discountAmount"></field>
     </panel>    
   </form>
   
   <action-validate name="action-validate-before-days">
-  <error message="Exceed duration between open and close registration dates" if="__parent__.registrationOpen.compareTo(__parent__.registrationClose) &lt; beforeDays"/>
+  <error message="Exceed duration between open and close registration dates" if="__parent__.registrationClose.compareTo(__parent__.registrationOpen) &lt; beforeDays"/>
   </action-validate>
+  
+  <action-attrs name="action-atts-for-set-discount-amount">
+  <attribute name="value" for="discountAmount" expr="eval: discountPercent.multiply(__parent__.eventFees.divide(new BigDecimal(100)))"/>
+  </action-attrs>
 
 </object-views>
