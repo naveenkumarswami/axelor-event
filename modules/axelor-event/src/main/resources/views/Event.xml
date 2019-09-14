@@ -16,7 +16,7 @@
   </grid>
 
   <form model="com.axelor.event.db.Event" title="Event" name="event-form"
-    onSave="action-method-validate-registration">
+    onSave="action-method-event-validate-registration-on-save">
     <panel title="Event OverView">
       <field name="reference"></field>
       <field name="startDate" onChange="action-validate-date"></field>
@@ -27,29 +27,29 @@
       <field name="capacity"></field>
       <field name="eventFees"></field>
       <field name="description" colSpan="4"></field>
-      <field name="discounts"></field>
-      <field name="eventRegistrations" colSpan="10" onChange="action-attrs-for-totalEntry"></field>
+      <field name="discounts" colSpan="10"></field>
+      <field name="eventRegistrations" form-view="eventRegistration-form" colSpan="10" onChange="action-attrs-for-totalEntry"></field>
       <field name="totalEntry"></field>
       <field name="amountCollected"></field>
       <field name="totalDiscount"></field>
     </panel>
   </form>
 
-  <action-method name="action-method-validate-fileds">
+  <action-method name="action-method-event-validate-registration-on-save">
     <call class="com.axelor.event.web.EventController" method="validateRegistration" />
   </action-method>
 
   <action-attrs name="action-attrs-for-totalEntry">
-    <attribute name="value" for="totalEntry" expr="eval :eventRegistrations.size()" />
+    <attribute name="value" for="totalEntry" expr="eval: eventRegistrations.size()" />
   </action-attrs>
 
   <action-validate name="action-validate-date">
     <error message="start date should not be ahead of End Date"
-      if="startDate!= null &amp;&amp; endDate!=null &amp;&amp;  startDate &lt; endDate" />
+      if="startDate!= null &amp;&amp; endDate!=null &amp;&amp;  startDate &gt; endDate" />
     <error message="Registration Open date should not be ahead of Registration Close Date"
-      if="registrationOpen!= null &amp;&amp; registrationClose!=null &amp;&amp;  registrationOpen &lt; registrationClose" />
+      if="registrationOpen!= null &amp;&amp; registrationClose!=null &amp;&amp;  registrationOpen &gt; registrationClose" />
     <error message="Registration close date must be before event start date" 
-    if="registrationClose!=null &amp;&amp; startDate!= null &amp;&amp; registrationClose &lt; startDate"/>
+    if="registrationClose!=null &amp;&amp; startDate!= null &amp;&amp; registrationClose &gt; startDate.date"/>
   </action-validate>
 
 </object-views>

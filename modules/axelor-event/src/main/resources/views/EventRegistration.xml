@@ -9,17 +9,24 @@
     <field name="amount"></field>
   </grid>
 
-  <form model="com.axelor.event.db.EventRegistration" title="Event Registration" name="evntRegistration-form"
-    cols="12">
+  <form model="com.axelor.event.db.EventRegistration" title="Event Registration" name="eventRegistration-form">
+    <panel if="eventValue==1">
+      <field name="event" colSpan="10" form-view="event-form"></field>
+    </panel>
+
     <panel title="OverView">
       <field name="name"></field>
       <field name="email" placeholder="whatever@example.com"
         pattern="^[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[a-z]{2,})$"></field>
-      <field name="registration"></field>
+      <field name="address" colSpan="10"></field>
+      <field name="registration" onChange="action-method-event-registration-validate-registration-on-change"></field>
       <field name="amount"></field>
-      <field name="address"></field>
     </panel>
   </form>
+
+  <action-method name="action-method-event-registration-validate-registration-on-change">
+    <call class="com.axelor.event.web.EventRegistrationController" method="validateRegistration" />
+  </action-method>
 
 
 </object-views>

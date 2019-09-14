@@ -10,10 +10,14 @@
 
   <form model="com.axelor.event.db.Discount" title="Discount" name="discount-form" cols="12">
     <panel title="Discount">
-      <field name="beforeDays"></field>
+      <field name="beforeDays" onChange="action-validate-before-days"></field>
       <field name="discountPercent"></field>
       <field name="discountAmount"></field>
-    </panel>
+    </panel>    
   </form>
+  
+  <action-validate name="action-validate-before-days">
+  <error message="Exceed duration between open and close registration dates" if="__parent__.registrationOpen.compareTo(__parent__.registrationClose) &lt; beforeDays"/>
+  </action-validate>
 
 </object-views>
