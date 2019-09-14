@@ -1,0 +1,8 @@
+apply plugin: 'com.axelor.app-module'   //The gradle plugin for module project
+
+axelor { 
+    title = "Axelor :: Event"  //The module project configuration
+}
+dependencies {
+	compile project(":modules:axelor-tool")
+}
