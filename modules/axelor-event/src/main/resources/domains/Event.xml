@@ -8,7 +8,7 @@
 
     <string name="reference" title="Reference" namecolumn="true"></string>
     <datetime name="startDate" title="Start Date"></datetime>
-    <datetime name="endDate" title="endDate"></datetime>
+    <datetime name="endDate" title="End Date"></datetime>
     <many-to-one name="venue" ref="com.axelor.event.db.Address" title="Venue"></many-to-one>
     <date name="registrationOpen" title="Registration Open"></date>
     <date name="registrationClose" title="Registration Close"></date>

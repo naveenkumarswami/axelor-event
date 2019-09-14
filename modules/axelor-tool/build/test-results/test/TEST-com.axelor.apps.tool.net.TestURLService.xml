@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.axelor.apps.tool.net.TestURLService" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-09-14T05:45:54" hostname="localhost.localdomain" time="0.863">
+<testsuite name="com.axelor.apps.tool.net.TestURLService" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-09-14T08:17:43" hostname="localhost.localdomain" time="0.551">
   <properties/>
-  <testcase name="testNotExist" classname="com.axelor.apps.tool.net.TestURLService" time="0.863"/>
+  <testcase name="testNotExist" classname="com.axelor.apps.tool.net.TestURLService" time="0.551"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[java.net.MalformedURLException: no protocol: www.google.com
 	at java.net.URL.<init>(URL.java:593)

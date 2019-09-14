@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
+
+  <grid model="com.axelor.event.db.EventRegistration" title="Event Registration" name="eventRegistration-grid">
+    <field name="name"></field>
+    <field name="email"></field>
+    <field name="registration"></field>
+    <field name="amount"></field>
+  </grid>
+
+  <form model="com.axelor.event.db.EventRegistration" title="Event Registration" name="evntRegistration-form"
+    cols="12">
+    <panel title="OverView">
+      <field name="name"></field>
+      <field name="email" placeholder="whatever@example.com"
+        pattern="^[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[a-z]{2,})$"></field>
+      <field name="registration"></field>
+      <field name="amount"></field>
+      <field name="address"></field>
+    </panel>
+  </form>
+
+
+</object-views>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.axelor.exception.db.TraceBackTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-09-14T05:45:53" hostname="localhost.localdomain" time="0.003">
+<testsuite name="com.axelor.exception.db.TraceBackTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-09-14T08:17:41" hostname="localhost.localdomain" time="0.002">
   <properties/>
-  <testcase name="testPersist" classname="com.axelor.exception.db.TraceBackTest" time="0.003"/>
+  <testcase name="testPersist" classname="com.axelor.exception.db.TraceBackTest" time="0.002"/>
   <system-out><![CDATA[Test
 3
 test
