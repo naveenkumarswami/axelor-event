@@ -21,7 +21,6 @@
     model="com.axelor.event.db.EventRegistration">
     <view type="grid" name="eventRegistration-grid" />
     <view type="form" name="eventRegistration-form" />
-    <context name="eventValue" expr="1"/>
   </action-view>
 
   <menuitem name="event-roor-address" parent="event-root" title="Address" action="event.root.address"

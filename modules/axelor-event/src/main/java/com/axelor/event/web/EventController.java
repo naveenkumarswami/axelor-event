@@ -2,10 +2,9 @@ package com.axelor.event.web;
 
 
 import java.io.File;
-import java.util.List;
 import com.axelor.event.db.Event;
-import com.axelor.event.db.EventRegistration;
 import com.axelor.event.exception.IExceptionMessage;
+import com.axelor.event.service.EventService;
 import com.axelor.i18n.I18n;
 import com.axelor.meta.MetaFiles;
 import com.axelor.meta.db.MetaFile;
@@ -21,12 +20,13 @@ public class EventController {
   @Inject MetaFileRepository metaFileRepo;
 
   @Inject MetaFiles metaFiles;
+  @Inject EventService eventService;
 
   public void validateRegistration(ActionRequest request, ActionResponse response) {
 
     Event event = request.getContext().asType(Event.class);
     
-    if (event.getCapacity() < event.getEventRegistrationList().size()) {
+    if (event.getEventRegistrationList()!=null && event.getCapacity() < event.getEventRegistrationList().size()) {
       response.setError(I18n.get(IExceptionMessage.REGISTRATION_EXVEEDS_CAPACITY));
     }
   }
@@ -34,7 +34,8 @@ public class EventController {
   public void updateAmount(ActionRequest request, ActionResponse response) {
 
     Event event = request.getContext().asType(Event.class);
-    List<EventRegistration> eventRegistrationsList = event.getEventRegistrationList();
+    event = eventService.compute(event);
+    response.setValues(event);
     
   }
   

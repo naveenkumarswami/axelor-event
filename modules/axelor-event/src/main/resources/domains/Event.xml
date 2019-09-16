@@ -7,11 +7,11 @@
   <entity name="Event" lang="java">
 
     <string name="reference" title="Reference" namecolumn="true"></string>
-    <datetime name="startDate" title="Start Date"></datetime>
-    <datetime name="endDate" title="End Date"></datetime>
+    <datetime name="startDateT" title="Start Date"></datetime>
+    <datetime name="endDateT" title="End Date"></datetime>
     <many-to-one name="venue" ref="com.axelor.event.db.Address" title="Venue"></many-to-one>
-    <date name="registrationOpen" title="Registration Open"></date>
-    <date name="registrationClose" title="Registration Close"></date>
+    <date name="registrationOpenDate" title="Registration Open"></date>
+    <date name="registrationCloseDate" title="Registration Close"></date>
     <integer name="capacity" title="Capacity"></integer>
     <decimal name="eventFees" title="Event Fees"></decimal>
     <string name="description" title="Description" large="true"></string>

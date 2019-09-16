@@ -4,10 +4,10 @@
 
   <grid model="com.axelor.event.db.Event" title="Event" name="event-grid">
     <field name="reference"></field>
-    <field name="startDate"></field>
-    <field name="endDate"></field>
-    <field name="registrationOpen"></field>
-    <field name="registrationClose"></field>
+    <field name="startDateT"></field>
+    <field name="endDateT"></field>
+    <field name="registrationOpenDate"></field>
+    <field name="registrationCloseDate"></field>
     <field name="capacity"></field>
     <field name="eventFees"></field>
     <field name="totalEntry"></field>
@@ -27,17 +27,17 @@
 
     <panel title="Event OverView">
       <field name="reference"></field>
-      <field name="startDate" onChange="action-validate-date"></field>
-      <field name="endDate" onChange="action-validate-date"></field>
+      <field name="startDateT" onChange="action-validate-date"></field>
+      <field name="endDateT" onChange="action-validate-date"></field>
       <field name="venue" colSpan="10"></field>
-      <field name="registrationOpen" onChange="action-validate-date"></field>
-      <field name="registrationClose" onChange="action-validate-date"></field>
+      <field name="registrationOpenDate" onChange="action-validate-date"></field>
+      <field name="registrationCloseDate" onChange="action-validate-date"></field>
       <field name="capacity"></field>
-      <field name="eventFees" onChange="action-method-for-amount-in-event-registration"></field>
+      <field name="eventFees"></field>
       <field name="description" colSpan="4"></field>
       <field name="discountList" colSpan="10" onChange="action-method-for-amount-in-event-registration"></field>
       <field name="eventRegistrationList" form-view="eventRegistration-form" colSpan="10"
-        onChange="action-attrs-for-totalEntry"></field>
+        onChange="action-attrs-for-totalEntry,action-method-for-amount-in-event-registration"></field>
       <field name="totalEntry"></field>
       <field name="amountCollected"></field>
       <field name="totalDiscount"></field>
@@ -54,11 +54,11 @@
 
   <action-validate name="action-validate-date">
     <error message="start date should not be ahead of End Date"
-      if="startDate!= null &amp;&amp; endDate!=null &amp;&amp;  startDate &gt; endDate" />
+      if="startDateT!= null &amp;&amp; endDateT!=null &amp;&amp;  startDateT &gt; endDateT" />
     <error message="Registration Open date should not be ahead of Registration Close Date"
-      if="registrationOpen!= null &amp;&amp; registrationClose!=null &amp;&amp;  registrationOpen &gt; registrationClose" />
+      if="registrationOpenDate!= null &amp;&amp; registrationCloseDate!=null &amp;&amp;  registrationOpenDate &gt; registrationCloseDate" />
     <error message="Registration close date must be before event start date"
-      if="registrationClose!=null &amp;&amp; startDate!= null &amp;&amp; registrationClose &gt; startDate.date" />
+      if="registrationCloseDate!=null &amp;&amp; startDateT!= null &amp;&amp; registrationCloseDate &gt; startDateT.date" />
   </action-validate>
 
   <action-method name="action-method-for-amount-in-event-registration">

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.axelor.apps.tool.InvokationTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-09-14T13:03:52" hostname="localhost.localdomain" time="0.816">
+<testsuite name="com.axelor.apps.tool.InvokationTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-09-16T06:29:38" hostname="localhost.localdomain" time="0.805">
   <properties/>
-  <testcase name="test" classname="com.axelor.apps.tool.InvokationTest" time="0.816"/>
+  <testcase name="test" classname="com.axelor.apps.tool.InvokationTest" time="0.805"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

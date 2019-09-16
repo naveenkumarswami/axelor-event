@@ -5,12 +5,12 @@
   <grid model="com.axelor.event.db.EventRegistration" title="Event Registration" name="eventRegistration-grid">
     <field name="name"></field>
     <field name="email"></field>
-    <field name="registration"></field>
+    <field name="registrationDateT"></field>
     <field name="amount"></field>
   </grid>
 
   <form model="com.axelor.event.db.EventRegistration" title="Event Registration" name="eventRegistration-form">
-    <panel if="eventValue">
+    <panel hideIf="$popup()">
       <field name="event" colSpan="10" form-view="event-form"></field>
     </panel>
 
@@ -19,7 +19,7 @@
       <field name="email" placeholder="whatever@example.com"
         pattern="^[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[a-z]{2,})$"></field>
       <field name="address" colSpan="10"></field>
-      <field name="registration" onChange="action-method-event-registration-validate-registration-on-change"></field>
+      <field name="registrationDateT" onChange="action-method-event-registration-validate-registration-on-change"></field>
       <field name="amount"></field>
     </panel>
   </form>

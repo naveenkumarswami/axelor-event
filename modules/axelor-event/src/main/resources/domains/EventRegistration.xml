@@ -10,7 +10,7 @@
     <string name="name" title="Name"></string>
     <string name="email" title="Email"></string>
     <many-to-one name="address" title="Address" ref="com.axelor.event.db.Address"></many-to-one>
-    <datetime name="registration" title="Registration"></datetime>
+    <datetime name="registrationDateT" title="Registration"></datetime>
     <decimal name="amount" title="Amount" readonly="true"></decimal>
   </entity>
 </domain-models>
