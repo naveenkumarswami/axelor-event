@@ -23,7 +23,7 @@ public class EventRegistrationServiceImpl implements EventRegistrationService {
           discountList
               .stream()
               .filter(a -> a.getBeforeDays() <= diffCloseAndRegist)
-              .max(Comparator.comparing(Discount::getBeforeDays))
+              .max(Comparator.comparing(Discount::getDiscountAmount))
               .orElse(null);
     }
     if (discount != null) {

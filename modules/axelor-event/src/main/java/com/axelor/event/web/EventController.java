@@ -3,6 +3,7 @@ package com.axelor.event.web;
 import java.io.File;
 import com.axelor.event.db.Event;
 import com.axelor.event.db.EventRegistration;
+import com.axelor.event.db.repo.EventRepository;
 import com.axelor.event.exception.IExceptionMessage;
 import com.axelor.event.service.EventService;
 import com.axelor.i18n.I18n;
@@ -24,12 +25,13 @@ public class EventController {
 
   @Inject MetaFiles metaFiles;
   @Inject EventService eventService;
+  @Inject EventRepository eventRepository;
 
   public void validateRegistration(ActionRequest request, ActionResponse response) {
 
     Event event = request.getContext().asType(Event.class);
+    try {
 
-   
     List<EventRegistration> eventReigstrationList =
         event
             .getEventRegistrationList()
@@ -37,25 +39,27 @@ public class EventController {
             .filter(
                 i ->
                     event.getRegistrationOpenDate() != null
-                            && !event
-                                .getRegistrationOpenDate()
-                                .isAfter(i.getRegistrationDateT().toLocalDate())
+                        && !event
+                            .getRegistrationOpenDate()
+                            .isAfter(i.getRegistrationDateT().toLocalDate())
                         && !event
                             .getRegistrationCloseDate()
                             .isBefore(i.getRegistrationDateT().toLocalDate()))
             .collect(Collectors.toList());
-    
-    if(event.getEventRegistrationList().size()!=eventReigstrationList.size()) {
-    event.setEventRegistrationList(eventReigstrationList);
-    response.setValues(event);
-    response.setFlash(I18n.get(IExceptionMessage.REGISTRATION_DATE));
+
+    if (event.getEventRegistrationList().size() != eventReigstrationList.size()) {
+      event.setEventRegistrationList(eventReigstrationList);
+      response.setValues(event);
+      response.setFlash(I18n.get(IExceptionMessage.REGISTRATION_DATE));
     }
-    
+
     if (event.getEventRegistrationList() != null
         && event.getCapacity() < event.getEventRegistrationList().size()) {
       response.setError(I18n.get(IExceptionMessage.REGISTRATION_EXVEEDS_CAPACITY));
     }
-
+    }catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   public void updateAmount(ActionRequest request, ActionResponse response) {
@@ -78,13 +82,40 @@ public class EventController {
 
     if (Files.getFileExtension(csvFile.getName()).equals("csv")) {
       File dataDir = Files.createTempDir();
-      System.err.println(dataDir.getAbsolutePath()); 
-//      System.err.println(csvFile.getParent());
+      System.err.println(dataDir.getAbsolutePath());
+      //      System.err.println(csvFile.getParent());
       eventService.importCsvFile(dataDir);
-      
+
       response.setFlash(I18n.get(IExceptionMessage.IMPORT_COMPLETED_MESSAGE));
     } else {
       response.setFlash(I18n.get(IExceptionMessage.INVALID_DATA_FORMAT_ERROR));
     }
   }
+
+//  public void sendEmail(ActionRequest request, ActionResponse response) {
+//    
+//    Event event = request.getContext().asType(Event.class);
+//
+//    try {
+//      event = eventRepository.find(event.getId());
+//
+//      if (event.getLeadSet().isEmpty() && campaign.getPartnerSet().isEmpty()) {
+//        response.setFlash(I18n.get(IExceptionMessage.EMPTY_TARGET));
+//        return;
+//      }
+//
+//      MetaFile logFile = campaignService.sendEmail(campaign);
+//
+//      if (logFile == null) {
+//        response.setFlash(I18n.get(IExceptionMessage.EMAIL_SUCCESS));
+//      } else {
+//        response.setFlash(I18n.get(IExceptionMessage.EMAIL_ERROR2));
+//      }
+//
+//      response.setValue("emailLog", logFile);
+//    } catch (Exception e) {
+//      TraceBackService.trace(response, e);
+//    }
+//    
+//  }
 }

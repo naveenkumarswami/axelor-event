@@ -19,7 +19,7 @@ public class EventRegistrationController {
 
     EventRegistration eventRegistration = request.getContext().asType(EventRegistration.class);
     Event event;
-        
+        try {
     if(eventRegistration.getEvent()==null){
     event = request.getContext().getParent().asType(Event.class);
     eventRegistration.setEvent(event);
@@ -36,5 +36,8 @@ public class EventRegistrationController {
     }
     eventRegistration = eventRegistrationService.compute(event, eventRegistration);
     response.setValues(eventRegistration);
+        }catch (Exception e) {
+          e.printStackTrace();
+        }
   }
 }

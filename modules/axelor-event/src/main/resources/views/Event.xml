@@ -23,6 +23,7 @@
         showIf="id" />
       <button name="print" title="print Event" showTitle="false" onClick="action-report-print-event-on-click"
         icon="fa-print" showIf="id" />
+        <button name="sendEmail" title="Send Email" showIf="id" onClick="action-method-for-send-email"/>
     </toolbar>
 
     <panel title="Event OverView">
@@ -79,5 +80,9 @@
     design="event.rptdesign">
     <param name="eventId" expr="eval: id" />
   </action-report>
+  
+  <action-method name="action-method-for-send-email">
+  <call class="com.axelor.event.web.EventController" method="sendEmail"/>
+  </action-method>
 
 </object-views>
