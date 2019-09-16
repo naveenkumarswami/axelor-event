@@ -29,11 +29,7 @@ public class EventController {
 
     Event event = request.getContext().asType(Event.class);
 
-    if (event.getEventRegistrationList() != null
-        && event.getCapacity() < event.getEventRegistrationList().size()) {
-      response.setError(I18n.get(IExceptionMessage.REGISTRATION_EXVEEDS_CAPACITY));
-    }
-
+   
     List<EventRegistration> eventReigstrationList =
         event
             .getEventRegistrationList()
@@ -48,12 +44,18 @@ public class EventController {
                             .getRegistrationCloseDate()
                             .isBefore(i.getRegistrationDateT().toLocalDate()))
             .collect(Collectors.toList());
-
+    
     if(event.getEventRegistrationList().size()!=eventReigstrationList.size()) {
     event.setEventRegistrationList(eventReigstrationList);
     response.setValues(event);
-//    response.setError(I18n.get(IExceptionMessage.REGISTRATION_DATE));
+    response.setFlash(I18n.get(IExceptionMessage.REGISTRATION_DATE));
     }
+    
+    if (event.getEventRegistrationList() != null
+        && event.getCapacity() < event.getEventRegistrationList().size()) {
+      response.setError(I18n.get(IExceptionMessage.REGISTRATION_EXVEEDS_CAPACITY));
+    }
+
   }
 
   public void updateAmount(ActionRequest request, ActionResponse response) {
@@ -75,7 +77,11 @@ public class EventController {
     File csvFile = MetaFiles.getPath(metaFile).toFile();
 
     if (Files.getFileExtension(csvFile.getName()).equals("csv")) {
-
+      File dataDir = Files.createTempDir();
+      System.err.println(dataDir.getAbsolutePath()); 
+//      System.err.println(csvFile.getParent());
+      eventService.importCsvFile(dataDir);
+      
       response.setFlash(I18n.get(IExceptionMessage.IMPORT_COMPLETED_MESSAGE));
     } else {
       response.setFlash(I18n.get(IExceptionMessage.INVALID_DATA_FORMAT_ERROR));

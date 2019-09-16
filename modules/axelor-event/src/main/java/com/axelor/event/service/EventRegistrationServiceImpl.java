@@ -1,6 +1,5 @@
 package com.axelor.event.service;
 
-import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;
 import com.axelor.event.db.Discount;

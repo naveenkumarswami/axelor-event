@@ -1,5 +1,6 @@
 package com.axelor.event.service;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.List;
 import com.axelor.data.Importer;
@@ -33,12 +34,12 @@ public class EventServiceImpl implements EventService {
   }
 
   @Override
-  public boolean importCsvFile() {
+  public boolean importCsvFile(File file) {
 
     Importer importfile =
         new CSVImporter(
-            "/home/axelor/Projects/Gst-Project/axelor-gst-app/modules/axelor-gst/src/main/resources/data-demo/input-config.xml",
-            "/home/axelor/Projects/Gst-Project/axelor-gst-app/modules/axelor-gst/src/main/resources/data-demo/input");
+            "/home/axelor/Practical Test Data Import/input-config.xml",
+            file.getAbsolutePath());
     Listener listener =
         new Listener() {
 
