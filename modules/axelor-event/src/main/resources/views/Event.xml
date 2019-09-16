@@ -19,9 +19,9 @@
     onSave="action-method-event-validate-registration-on-save">
 
     <toolbar>
-      <button name="importRegistration" title="Import Registration" onClick="action-view-for-registration-popup" showIf="id" />
-      <button name="print" title="print Event" showTitle="false"
-        onClick="action-report-print-event-on-click"
+      <button name="importRegistration" title="Import Registration" onClick="action-view-for-registration-popup"
+        showIf="id" />
+      <button name="print" title="print Event" showTitle="false" onClick="action-report-print-event-on-click"
         icon="fa-print" showIf="id" />
     </toolbar>
 
@@ -37,7 +37,7 @@
       <field name="description" colSpan="4"></field>
       <field name="discountList" colSpan="10" onChange="action-method-for-amount-in-event-registration"></field>
       <field name="eventRegistrationList" form-view="eventRegistration-form" colSpan="10"
-        onChange="action-attrs-for-totalEntry,action-method-for-amount-in-event-registration"></field>
+        onChange="action-method-event-validate-registration-on-save,action-attrs-for-totalEntry,action-method-for-amount-in-event-registration"></field>
       <field name="totalEntry"></field>
       <field name="amountCollected"></field>
       <field name="totalDiscount"></field>
@@ -64,8 +64,9 @@
   <action-method name="action-method-for-amount-in-event-registration">
     <call class="com.axelor.event.web.EventController" method="updateAmount" />
   </action-method>
-  
-  <action-view name="action-view-for-registration-popup" title="event Registration Popup" model="com.axelor.event.db.Event">
+
+  <action-view name="action-view-for-registration-popup" title="event Registration Popup"
+    model="com.axelor.event.db.Event">
     <view type="form" name="event-registration-form-popup" />
     <view-param name="popup" value="true" />
     <view-param name="show-toolbar" value="false" />
@@ -73,5 +74,10 @@
     <view-param name="popup-save" value="false" />
     <context name="showRecord" expr="eval: id" />
   </action-view>
+
+  <action-report output="event-${date}-${time}" name="action-report-print-event-on-click"
+    design="event.rptdesign">
+    <param name="eventId" expr="eval: id" />
+  </action-report>
 
 </object-views>

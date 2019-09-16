@@ -22,12 +22,13 @@ public class EventRegistrationController {
         
     if(eventRegistration.getEvent()==null){
     event = request.getContext().getParent().asType(Event.class);
+    eventRegistration.setEvent(event);
     }
     else {
     event = eventRegistration.getEvent();
     }
 
-    if (event.getRegistrationOpenDate().isAfter(eventRegistration.getRegistrationDateT().toLocalDate())
+    if (event.getRegistrationOpenDate()!=null && event.getRegistrationOpenDate().isAfter(eventRegistration.getRegistrationDateT().toLocalDate())
         || event
             .getRegistrationCloseDate()
             .isBefore(eventRegistration.getRegistrationDateT().toLocalDate())) {
