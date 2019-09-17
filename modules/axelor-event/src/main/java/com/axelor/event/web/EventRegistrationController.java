@@ -10,34 +10,68 @@ import com.axelor.rpc.ActionResponse;
 import com.google.inject.Inject;
 
 public class EventRegistrationController {
-  
-  @Inject
-  EventRegistrationService eventRegistrationService;
+
+  @Inject EventRegistrationService eventRegistrationService;
 
   public void validateRegistration(ActionRequest request, ActionResponse response) {
 
-
     EventRegistration eventRegistration = request.getContext().asType(EventRegistration.class);
     Event event;
-        try {
-    if(eventRegistration.getEvent()==null){
-    event = request.getContext().getParent().asType(Event.class);
-    eventRegistration.setEvent(event);
-    }
-    else {
-    event = eventRegistration.getEvent();
-    }
+    try {
+      if (eventRegistration.getEvent() == null) {
+        event = request.getContext().getParent().asType(Event.class);
+        eventRegistration.setEvent(event);
+      } else {
+        event = eventRegistration.getEvent();
+      }
 
-    if (event.getRegistrationOpenDate()!=null && event.getRegistrationOpenDate().isAfter(eventRegistration.getRegistrationDateT().toLocalDate())
-        || event
-            .getRegistrationCloseDate()
-            .isBefore(eventRegistration.getRegistrationDateT().toLocalDate())) {
-      response.setError(I18n.get(IExceptionMessage.REGISTRATION_DATE));
-    }
-    eventRegistration = eventRegistrationService.compute(event, eventRegistration);
-    response.setValues(eventRegistration);
-        }catch (Exception e) {
-          e.printStackTrace();
+      if (event.getRegistrationOpenDate() != null
+              && event
+                  .getRegistrationOpenDate()
+                  .isAfter(eventRegistration.getRegistrationDateT().toLocalDate())
+          || event
+              .getRegistrationCloseDate()
+              .isBefore(eventRegistration.getRegistrationDateT().toLocalDate())) {
+        response.setError(I18n.get(IExceptionMessage.REGISTRATION_DATE));
+      }
+      eventRegistration = eventRegistrationService.compute(event, eventRegistration);
+      response.setValues(eventRegistration);
+
+      if (eventRegistration.getEvent() != null) {
+
+        if (eventRegistration.getId() == null) {
+          if ((event.getEventRegistrationList() != null
+                  && event.getCapacity() <= event.getEventRegistrationList().size())
+              || (event.getEventRegistrationList() == null && event.getCapacity() == null
+                  || event.getCapacity() <= 0)) {
+            response.setError(I18n.get(IExceptionMessage.REGISTRATION_EXCEEDS_CAPACITY));
+          }
         }
+      }
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void addIntoEvent(ActionRequest request, ActionResponse response) {
+
+    EventRegistration eventRegistration = request.getContext().asType(EventRegistration.class);
+    System.err.println(eventRegistration.getId());
+
+    Event event = eventRegistration.getEvent();
+//    if (eventRegistration.getEvent() != null) {
+//
+//      if (eventRegistration.getId() == null) {
+//        if ((event.getEventRegistrationList() != null
+//                && event.getCapacity() <= event.getEventRegistrationList().size())
+//            || (event.getEventRegistrationList() == null && event.getCapacity() == null
+//                || event.getCapacity() <= 0)) {
+//          response.setError(I18n.get(IExceptionMessage.REGISTRATION_EXCEEDS_CAPACITY));
+//        }
+//      }
+      eventRegistration = eventRegistrationService.addEvent(event, eventRegistration);
+      response.setValues(eventRegistration);
+//    }
   }
 }

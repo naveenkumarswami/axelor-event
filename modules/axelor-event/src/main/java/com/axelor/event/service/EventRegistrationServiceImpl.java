@@ -5,8 +5,13 @@ import java.util.List;
 import com.axelor.event.db.Discount;
 import com.axelor.event.db.Event;
 import com.axelor.event.db.EventRegistration;
+import com.axelor.event.db.repo.EventRegistrationRepository;
+import com.google.inject.Inject;
+import com.google.inject.persist.Transactional;
 
 public class EventRegistrationServiceImpl implements EventRegistrationService {
+  
+  @Inject EventRegistrationRepository eventRegistrationRepository;
 
   @Override
   public EventRegistration compute(Event event, EventRegistration eventRegistration) {
@@ -33,6 +38,18 @@ public class EventRegistrationServiceImpl implements EventRegistrationService {
       eventRegistration.setAmount(event.getEventFees());
     }
 
+    return eventRegistration;
+  }
+
+  @Override @Transactional
+  public EventRegistration addEvent(Event event, EventRegistration eventRegistration) {
+    
+    List<EventRegistration> eventRegistrationList = event.getEventRegistrationList();
+    eventRegistration = eventRegistrationRepository.find(eventRegistration.getId());
+    System.err.println(eventRegistration ); 
+    eventRegistrationList.add(eventRegistration);
+    event.setEventRegistrationList(eventRegistrationList);
+    eventRegistration.setEvent(event);
     return eventRegistration;
   }
 }

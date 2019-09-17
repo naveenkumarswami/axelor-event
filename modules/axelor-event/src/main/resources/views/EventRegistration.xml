@@ -9,7 +9,7 @@
     <field name="amount"></field>
   </grid>
 
-  <form model="com.axelor.event.db.EventRegistration" title="Event Registration" name="eventRegistration-form">
+  <form model="com.axelor.event.db.EventRegistration" title="Event Registration" name="eventRegistration-form" onSave="action-method-event-registration-validate-registration-on-change,save,action-method-for-add-event-registration-into-event-on-save">
     <panel hideIf="$popup()">
       <field name="event" colSpan="10" form-view="event-form"></field>
     </panel>
@@ -27,6 +27,9 @@
   <action-method name="action-method-event-registration-validate-registration-on-change">
     <call class="com.axelor.event.web.EventRegistrationController" method="validateRegistration" />
   </action-method>
-
+  
+  <action-method name="action-method-for-add-event-registration-into-event-on-save">
+  <call class="com.axelor.event.web.EventRegistrationController" method="addIntoEvent"/>
+  </action-method>
 
 </object-views>

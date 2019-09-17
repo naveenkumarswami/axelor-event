@@ -9,6 +9,7 @@ import com.axelor.data.csv.CSVImporter;
 import com.axelor.db.Model;
 import com.axelor.event.db.Event;
 import com.axelor.event.db.EventRegistration;
+import com.axelor.meta.db.MetaFile;
 
 public class EventServiceImpl implements EventService {
 
@@ -39,7 +40,7 @@ public class EventServiceImpl implements EventService {
     Importer importfile =
         new CSVImporter(
             "/home/axelor/Practical Test Data Import/input-config.xml",
-            file.getAbsolutePath());
+            file.getParent());
     Listener listener =
         new Listener() {
 
@@ -66,5 +67,11 @@ public class EventServiceImpl implements EventService {
     importfile.run();
 
     return true;
+  }
+
+  @Override
+  public MetaFile sendEmail(Event event) {
+    
+    return null;
   }
 }
