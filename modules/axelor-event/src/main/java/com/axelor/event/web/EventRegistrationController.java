@@ -60,18 +60,8 @@ public class EventRegistrationController {
     System.err.println(eventRegistration.getId());
 
     Event event = eventRegistration.getEvent();
-//    if (eventRegistration.getEvent() != null) {
-//
-//      if (eventRegistration.getId() == null) {
-//        if ((event.getEventRegistrationList() != null
-//                && event.getCapacity() <= event.getEventRegistrationList().size())
-//            || (event.getEventRegistrationList() == null && event.getCapacity() == null
-//                || event.getCapacity() <= 0)) {
-//          response.setError(I18n.get(IExceptionMessage.REGISTRATION_EXCEEDS_CAPACITY));
-//        }
-//      }
+
       eventRegistration = eventRegistrationService.addEvent(event, eventRegistration);
       response.setValues(eventRegistration);
-//    }
   }
 }

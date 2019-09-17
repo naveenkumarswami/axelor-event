@@ -1,17 +1,31 @@
 package com.axelor.event.service;
 
 import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+import javax.mail.MessagingException;
+import com.axelor.apps.message.db.Message;
+import com.axelor.apps.message.db.repo.TemplateRepository;
+import com.axelor.apps.message.service.TemplateMessageService;
 import com.axelor.data.Importer;
 import com.axelor.data.Listener;
 import com.axelor.data.csv.CSVImporter;
 import com.axelor.db.Model;
 import com.axelor.event.db.Event;
 import com.axelor.event.db.EventRegistration;
-import com.axelor.meta.db.MetaFile;
+import com.axelor.exception.AxelorException;
+import com.google.inject.Inject;
+import com.google.inject.persist.Transactional;
 
 public class EventServiceImpl implements EventService {
+
+  protected TemplateMessageService templateMessageService;
+  @Inject TemplateRepository templateRepository;
+  
+  @Inject public EventServiceImpl(TemplateMessageService templateMessageService) {
+    this.templateMessageService = templateMessageService;
+  }
 
   @Override
   public Event compute(Event event) {
@@ -25,12 +39,15 @@ public class EventServiceImpl implements EventService {
               .stream()
               .map(i -> i.getAmount())
               .reduce(BigDecimal.ZERO, BigDecimal::add);
-      totalDiscount = event.getEventFees().multiply(new BigDecimal(eventRegistrationList.size())).subtract(totalAmount);
-      
+      totalDiscount =
+          event
+              .getEventFees()
+              .multiply(new BigDecimal(eventRegistrationList.size()))
+              .subtract(totalAmount);
     }
     event.setAmountCollected(totalAmount);
     event.setTotalDiscount(totalDiscount);
-    
+
     return event;
   }
 
@@ -39,8 +56,7 @@ public class EventServiceImpl implements EventService {
 
     Importer importfile =
         new CSVImporter(
-            "/home/axelor/Practical Test Data Import/input-config.xml",
-            file.getParent());
+            "/home/axelor/Practical Test Data Import/input-config.xml", file.getParent());
     Listener listener =
         new Listener() {
 
@@ -69,9 +85,20 @@ public class EventServiceImpl implements EventService {
     return true;
   }
 
-  @Override
-  public MetaFile sendEmail(Event event) {
+  @Override @Transactional
+  public Message sendConfirmationEmail(EventRegistration eventRegistration) {
     
+    System.err.println(templateMessageService); 
+    
+    try {
+//    templateMessageService.generateAndSendMessage(
+//        event, templateRepository.findByName("Event"));
+//    System.err.println("done" ); 
+      return templateMessageService.generateAndSendMessage(
+          eventRegistration, templateRepository.findByName("Event"));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
     return null;
   }
 }

@@ -1,13 +1,14 @@
 package com.axelor.event.service;
 
 import java.io.File;
+import com.axelor.apps.message.db.Message;
 import com.axelor.event.db.Event;
-import com.axelor.meta.db.MetaFile;
+import com.axelor.event.db.EventRegistration;
 
 public interface EventService {
   
   public Event compute(Event event);
   public boolean importCsvFile(File csvFile);
-  public MetaFile sendEmail(Event event);
+  public Message sendConfirmationEmail(EventRegistration eventRegistration);
   
 }

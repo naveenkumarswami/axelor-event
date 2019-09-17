@@ -8,6 +8,7 @@
 
    <many-to-one name="event" title="Event" ref="com.axelor.event.db.Event"></many-to-one>
     <string name="name" title="Name"></string>
+    <boolean name="emailSend" title="Email Sent" default="false" readonly="true"></boolean>
     <string name="email" title="Email"></string>
     <many-to-one name="address" title="Address" ref="com.axelor.event.db.Address"></many-to-one>
     <datetime name="registrationDateT" title="Registration"></datetime>

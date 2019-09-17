@@ -1,12 +1,17 @@
 package com.axelor.event.web;
 
 import java.io.File;
+import com.axelor.apps.message.db.Message;
+import com.axelor.apps.message.db.repo.MessageRepository;
+import com.axelor.apps.message.service.MessageServiceImpl;
 import com.axelor.event.db.Event;
 import com.axelor.event.db.EventRegistration;
+import com.axelor.event.db.repo.EventRegistrationRepository;
 import com.axelor.event.db.repo.EventRepository;
 import com.axelor.event.exception.IExceptionMessage;
 import com.axelor.event.service.EventService;
 import com.axelor.i18n.I18n;
+import com.axelor.inject.Beans;
 import com.axelor.meta.MetaFiles;
 import com.axelor.meta.db.MetaFile;
 import com.axelor.meta.db.repo.MetaFileRepository;
@@ -14,6 +19,7 @@ import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 import com.google.common.io.Files;
 import com.google.inject.Inject;
+import com.google.inject.persist.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -25,6 +31,7 @@ public class EventController {
   @Inject MetaFiles metaFiles;
   @Inject EventService eventService;
   @Inject EventRepository eventRepository;
+  @Inject EventRegistrationRepository eventRegistrationRepository;
 
   public void validateRegistration(ActionRequest request, ActionResponse response) {
 
@@ -91,23 +98,29 @@ public class EventController {
     }
   }
 
+  @Transactional
   public void sendEmail(ActionRequest request, ActionResponse response) {
 
     Event event = request.getContext().asType(Event.class);
+    List<EventRegistration> eventRegistrationList = event.getEventRegistrationList();
 
     try {
-      event = eventRepository.find(event.getId());
 
-      MetaFile logFile = eventService.sendEmail(event);
+      for (EventRegistration eventRegistration : eventRegistrationList) {
+        eventRegistration = eventRegistrationRepository.find(eventRegistration.getId());
 
-      if (logFile == null) {
-        response.setFlash(I18n.get(IExceptionMessage.EMAIL_SUCCESS));
-      } else {
-        response.setFlash(I18n.get(IExceptionMessage.EMAIL_ERROR2));
+        Message message = eventService.sendConfirmationEmail(eventRegistration);
+        if (message != null && eventRegistration.getEmailSend() != true) {
+          response.setFlash(I18n.get(IExceptionMessage.EMAIL_SUCCESS));
+          eventRegistration.setEmailSend(true);
+          eventRegistrationRepository.save(eventRegistration);
+        } else {
+          response.setFlash(I18n.get(IExceptionMessage.EMAIL_ERROR2));
+        }
       }
-    //  response.setValue("emailLog", logFile);
     } catch (Exception e) {
       e.printStackTrace();
+      response.setFlash(I18n.get(IExceptionMessage.EMAIL_ERROR2));
     }
   }
 }

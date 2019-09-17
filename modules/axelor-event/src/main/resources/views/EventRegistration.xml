@@ -18,6 +18,7 @@
       <field name="name"></field>
       <field name="email" placeholder="whatever@example.com"
         pattern="^[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[a-z]{2,})$"></field>
+      <field name="emailSend"></field>
       <field name="address" colSpan="10"></field>
       <field name="registrationDateT" onChange="action-method-event-registration-validate-registration-on-change"></field>
       <field name="amount"></field>

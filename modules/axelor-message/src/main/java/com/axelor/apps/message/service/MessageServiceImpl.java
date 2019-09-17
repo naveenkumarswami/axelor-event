@@ -254,6 +254,8 @@ public class MessageServiceImpl implements MessageService {
       throws MessagingException, IOException, AxelorException {
 
     EmailAccount mailAccount = message.getMailAccount();
+    
+    System.err.println(message ); 
 
     if (mailAccount == null) {
       return message;
