@@ -25,13 +25,7 @@ public class EventRegistrationController {
         event = eventRegistration.getEvent();
       }
 
-      if (event.getRegistrationOpenDate() != null
-              && event
-                  .getRegistrationOpenDate()
-                  .isAfter(eventRegistration.getRegistrationDateT().toLocalDate())
-          || event
-              .getRegistrationCloseDate()
-              .isBefore(eventRegistration.getRegistrationDateT().toLocalDate())) {
+      if (eventRegistrationService.checkRegistrationDate(event, eventRegistration)) {
         response.setError(I18n.get(IExceptionMessage.REGISTRATION_DATE));
       }
       eventRegistration = eventRegistrationService.compute(event, eventRegistration);
@@ -40,10 +34,7 @@ public class EventRegistrationController {
       if (eventRegistration.getEvent() != null) {
 
         if (eventRegistration.getId() == null) {
-          if ((event.getEventRegistrationList() != null
-                  && event.getCapacity() <= event.getEventRegistrationList().size())
-              || (event.getEventRegistrationList() == null && event.getCapacity() == null
-                  || event.getCapacity() <= 0)) {
+          if (eventRegistrationService.chechExceedCondition(event, eventRegistration)) {
             response.setError(I18n.get(IExceptionMessage.REGISTRATION_EXCEEDS_CAPACITY));
           }
         }

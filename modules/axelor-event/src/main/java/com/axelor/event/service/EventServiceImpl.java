@@ -1,10 +1,8 @@
 package com.axelor.event.service;
 
 import java.io.File;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-import javax.mail.MessagingException;
 import com.axelor.apps.message.db.Message;
 import com.axelor.apps.message.db.repo.TemplateRepository;
 import com.axelor.apps.message.service.TemplateMessageService;
@@ -35,10 +33,13 @@ public class EventServiceImpl implements EventService {
   @Override
   public Event compute(Event event) {
     List<EventRegistration> eventRegistrationList = event.getEventRegistrationList();
+    System.err.println("test12334  :  "+eventRegistrationList ); 
     BigDecimal totalAmount = BigDecimal.ZERO;
     BigDecimal totalDiscount = BigDecimal.ZERO;
 
     if (eventRegistrationList != null) {
+      
+      
       totalAmount =
           eventRegistrationList
               .stream()
@@ -50,6 +51,9 @@ public class EventServiceImpl implements EventService {
               .multiply(new BigDecimal(eventRegistrationList.size()))
               .subtract(totalAmount);
     }
+    System.err.println("totalAmount :" + totalAmount );
+    System.err.println("totalDiscount :" + totalDiscount ); 
+    event.setTotalEntry(eventRegistrationList.size());
     event.setAmountCollected(totalAmount);
     event.setTotalDiscount(totalDiscount);
 
@@ -57,8 +61,8 @@ public class EventServiceImpl implements EventService {
   }
 
   @Override
-  public Event importCsvFile(File file, Integer id , Event event) {
-    
+  public Event importCsvFile(File file, Integer id, Event event) {
+
     List<EventRegistration> eventRegistrationList = event.getEventRegistrationList();
     
     Importer importfile =
@@ -73,19 +77,26 @@ public class EventServiceImpl implements EventService {
 
           @Override
           public void imported(Model bean) {
-            
-//            System.err.println("bean" + bean ); 
-            
-            if(bean !=null) {
-              EventRegistration eventRegistration = (EventRegistration) bean;
-              System.err.println("event "+event); 
-              System.err.println(eventRegistration ); 
+
+            //            System.err.println("bean" + bean );
+            EventRegistration eventRegistration = (EventRegistration) bean;
+            if (eventRegistrationService.chechExceedCondition(event, eventRegistration)
+                || eventRegistrationService.checkRegistrationDate(event, eventRegistration)) {             
+              eventRegistration = null;
+              System.err.println("TEST  :"+eventRegistration );
+            }
+
+            if (bean != null && eventRegistration != null) {
+
+              System.err.println("event " + event);
+              System.err.println(eventRegistration);
               eventRegistrationList.add(eventRegistration);
               eventRegistration.setEvent(event);
-//              System.err.println(eventRegistrationList ); 
-//              eventRegistrationRepository.save(eventRegistration);
-//              eventRepository.save(event); 
-          }            
+              eventRegistration = eventRegistrationService.compute(event, eventRegistration);
+              //              System.err.println(eventRegistrationList );
+              //              eventRegistrationRepository.save(eventRegistration);
+              //              eventRepository.save(event);
+            }
           }
 
           @Override
@@ -94,7 +105,7 @@ public class EventServiceImpl implements EventService {
 
     importfile.addListener(listener);
     importfile.run();
-    
+
     event.setEventRegistrationList(eventRegistrationList);
     return event;
   }

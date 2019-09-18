@@ -5,7 +5,7 @@ import com.axelor.event.db.EventRegistration;
 
 public class EventRegistrationImporter {
   
-  public Object checkValues(Object bean, Map<String, Object> values) {
+  public Object checkValues(Object bean, Map<String, Object> values) { 
     
     assert bean instanceof EventRegistration;
     EventRegistration eventRegistration = (EventRegistration) bean;

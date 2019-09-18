@@ -38,7 +38,7 @@
       <field name="description" colSpan="4"></field>
       <field name="discountList" colSpan="10" onChange="action-method-for-amount-in-event-registration"></field>
       <field name="eventRegistrationList" form-view="eventRegistration-form" colSpan="10"
-        onChange="action-method-event-validate-registration-on-save,action-attrs-for-totalEntry,action-method-for-amount-in-event-registration"></field>
+        onChange="action-method-event-validate-registration-on-save,action-method-for-amount-in-event-registration"></field>
       <field name="totalEntry"></field>
       <field name="amountCollected"></field>
       <field name="totalDiscount"></field>
@@ -48,10 +48,6 @@
   <action-method name="action-method-event-validate-registration-on-save">
     <call class="com.axelor.event.web.EventController" method="validateRegistration" />
   </action-method>
-
-  <action-attrs name="action-attrs-for-totalEntry">
-    <attribute name="value" for="totalEntry" expr="eval: eventRegistrationList.size()" />
-  </action-attrs>
 
   <action-validate name="action-validate-date">
     <error message="start date should not be ahead of End Date"

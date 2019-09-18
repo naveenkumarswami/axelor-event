@@ -2,16 +2,14 @@ package com.axelor.event.web;
 
 import java.io.File;
 import com.axelor.apps.message.db.Message;
-import com.axelor.apps.message.db.repo.MessageRepository;
-import com.axelor.apps.message.service.MessageServiceImpl;
 import com.axelor.event.db.Event;
 import com.axelor.event.db.EventRegistration;
 import com.axelor.event.db.repo.EventRegistrationRepository;
 import com.axelor.event.db.repo.EventRepository;
 import com.axelor.event.exception.IExceptionMessage;
+import com.axelor.event.service.EventRegistrationService;
 import com.axelor.event.service.EventService;
 import com.axelor.i18n.I18n;
-import com.axelor.inject.Beans;
 import com.axelor.meta.MetaFiles;
 import com.axelor.meta.db.MetaFile;
 import com.axelor.meta.db.repo.MetaFileRepository;
@@ -32,6 +30,7 @@ public class EventController {
   @Inject EventService eventService;
   @Inject EventRepository eventRepository;
   @Inject EventRegistrationRepository eventRegistrationRepository;
+  @Inject EventRegistrationService eventRegistrationService;
 
   public void validateRegistration(ActionRequest request, ActionResponse response) {
 
@@ -68,9 +67,19 @@ public class EventController {
     }
   }
 
+  @Transactional
   public void updateAmount(ActionRequest request, ActionResponse response) {
 
     Event event = request.getContext().asType(Event.class);
+    
+//    System.err.println(request.getContext().get("showRecord") ); 
+    Integer id = (Integer) request.getContext().get("showRecord");
+    if(id!=null) {
+      event = eventRepository.find(id.longValue());
+      event = eventService.compute(event);
+      eventRepository.save(event);
+      return ;
+    }
     event = eventService.compute(event);
     response.setValues(event);
   }
@@ -82,7 +91,8 @@ public class EventController {
     Integer id = (Integer) request.getContext().get("showRecord");
     System.err.println("id: " + id ); 
     
-
+    request.getContext().put("eventId", id.longValue());
+    
     MetaFile metaFile =
         metaFileRepo.find(
             Long.valueOf(((Map) request.getContext().get("importFile")).get("id").toString()));
@@ -95,7 +105,8 @@ public class EventController {
       Event event = eventRepository.find(id.longValue());
       event = eventService.importCsvFile(csvFile , id , event);
       csvFile.delete();
-      System.err.println(event ); 
+      eventRegistrationService.removeEventRegistration();
+      System.err.println(event); 
       response.setFlash(I18n.get(IExceptionMessage.IMPORT_COMPLETED_MESSAGE));
     } else {
       response.setFlash(I18n.get(IExceptionMessage.INVALID_DATA_FORMAT_ERROR));
@@ -112,14 +123,17 @@ public class EventController {
 
       for (EventRegistration eventRegistration : eventRegistrationList) {
         eventRegistration = eventRegistrationRepository.find(eventRegistration.getId());
+        
+        if(eventRegistration.getEmail()!=null && eventRegistration.getEmailSend() != true) {
 
         Message message = eventService.sendConfirmationEmail(eventRegistration);
-        if (message != null && eventRegistration.getEmailSend() != true) {
+        if (message != null ) {
           response.setFlash(I18n.get(IExceptionMessage.EMAIL_SUCCESS));
           eventRegistration.setEmailSend(true);
           eventRegistrationRepository.save(eventRegistration);
         } else {
           response.setFlash(I18n.get(IExceptionMessage.EMAIL_ERROR2));
+        }
         }
       }
     } catch (Exception e) {
