@@ -8,7 +8,7 @@ import com.axelor.event.db.EventRegistration;
 public interface EventService {
   
   public Event compute(Event event);
-  public boolean importCsvFile(File csvFile);
+  public Event importCsvFile(File csvFile , Integer id , Event event);
   public Message sendConfirmationEmail(EventRegistration eventRegistration);
   
 }

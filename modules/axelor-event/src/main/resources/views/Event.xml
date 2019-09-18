@@ -23,7 +23,7 @@
         showIf="id" />
       <button name="print" title="print Event" showTitle="false" onClick="action-report-print-event-on-click"
         icon="fa-print" showIf="id" />
-        <button name="sendEmail" title="Send Email" showIf="id" onClick="action-method-for-send-email"/>
+        <button name="sendEmail" title="Send Email" showIf="id" onClick="save,action-method-for-send-email"/>
     </toolbar>
 
     <panel title="Event OverView">

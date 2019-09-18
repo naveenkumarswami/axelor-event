@@ -60,7 +60,6 @@ public class EventRegistrationController {
     System.err.println(eventRegistration.getId());
 
     Event event = eventRegistration.getEvent();
-
       eventRegistration = eventRegistrationService.addEvent(event, eventRegistration);
       response.setValues(eventRegistration);
   }

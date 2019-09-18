@@ -1,5 +1,6 @@
 package com.axelor.event.service;
 
+import java.time.Period;
 import java.util.Comparator;
 import java.util.List;
 import com.axelor.event.db.Discount;
@@ -15,12 +16,18 @@ public class EventRegistrationServiceImpl implements EventRegistrationService {
 
   @Override
   public EventRegistration compute(Event event, EventRegistration eventRegistration) {
-
+    
+//    int diffCloseAndRegist = event.getRegistrationCloseDate().getDayOfMonth() - eventRegistration.getRegistrationDateT().getDayOfMonth();
+ 
+//    System.out.println("diff :"+diff ); 
+    
+    Integer diff = Period.between(eventRegistration.getRegistrationDateT().toLocalDate() , event.getRegistrationCloseDate()).getDays();
+    System.out.println("diff :"+diff ); 
     Integer diffCloseAndRegist =
         event
             .getRegistrationCloseDate()
             .compareTo(eventRegistration.getRegistrationDateT().toLocalDate());
-    System.err.println(diffCloseAndRegist);
+    System.err.println("differ :"+diffCloseAndRegist);
     List<Discount> discountList = event.getDiscountList();
     Discount discount = null;
     if (discountList != null) {

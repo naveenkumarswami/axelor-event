@@ -77,9 +77,11 @@ public class EventController {
 
   public void setRegistration(ActionRequest request, ActionResponse response) {
 
-    Event event = request.getContext().asType(Event.class);
+    //Event event = request.getContext().asType(Event.class);
 
-    Integer id = (Integer) request.getContext().get("showRecords");
+    Integer id = (Integer) request.getContext().get("showRecord");
+    System.err.println("id: " + id ); 
+    
 
     MetaFile metaFile =
         metaFileRepo.find(
@@ -90,8 +92,10 @@ public class EventController {
       File dataDir = Files.createTempDir();
       System.err.println(dataDir.getAbsolutePath());
       //      System.err.println(csvFile.getParent());
-      eventService.importCsvFile(csvFile);
+      Event event = eventRepository.find(id.longValue());
+      event = eventService.importCsvFile(csvFile , id , event);
       csvFile.delete();
+      System.err.println(event ); 
       response.setFlash(I18n.get(IExceptionMessage.IMPORT_COMPLETED_MESSAGE));
     } else {
       response.setFlash(I18n.get(IExceptionMessage.INVALID_DATA_FORMAT_ERROR));
