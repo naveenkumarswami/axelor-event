@@ -23,7 +23,7 @@
         showIf="id" />
       <button name="print" title="print Event" showTitle="false" onClick="action-report-print-event-on-click"
         icon="fa-print" showIf="id" />
-        <button name="sendEmail" title="Send Email" showIf="id" onClick="save,action-method-for-send-email"/>
+      <button name="sendEmail" title="Send Email" showIf="id" onClick="save,action-method-for-send-email" />
     </toolbar>
 
     <panel title="Event OverView">
@@ -45,6 +45,43 @@
     </panel>
   </form>
 
+  <cards name="event-cards" model="com.axelor.event.db.Event" title="Events" css="rect-image">
+
+    <field name="reference"></field>
+    <field name="startDateT"></field>
+    <field name="endDateT"></field>
+    <field name="registrationOpenDate"></field>
+    <field name="registrationCloseDate"></field>
+    <field name="capacity"></field>
+    <field name="eventFees"></field>
+    <field name="totalEntry"></field>
+    <field name="amountCollected"></field>
+    <field name="totalDiscount"></field>
+
+    <template><![CDATA[
+      <div>
+        <div class="span12"><strong>{{reference}}</strong></div>
+      </div>
+        <div class="span8">
+          <strong><span x-translate>Start Date</span></strong> :{{startDateT}}<br/>
+          <strong><span x-translate>End Date</span></strong> : {{endDateT}} <br/>
+          <strong><span x-translate>Registration Open Date</span></strong> :{{registrationOpenDate}}<br/>
+          <strong><span x-translate>Registration Close Date</span></strong> : {{registrationCloseDate}}<br/>
+         
+          <span>
+           T : {{totalEntry}}<br/>
+          Fees:{{eventFees}}<br/>
+          </span>
+        </div>
+    ]]>
+    </template>
+  </cards>
+  
+  <calendar name="event-calendar" model="com.axelor.event.db.Event" eventStart="startDateT" eventStop="endDateT" title="Calendar">
+  <field name="reference"/>
+  </calendar>
+
+
   <action-method name="action-method-event-validate-registration-on-save">
     <call class="com.axelor.event.web.EventController" method="validateRegistration" />
   </action-method>
@@ -57,7 +94,7 @@
     <error message="Registration close date must be before event start date"
       if="registrationCloseDate!=null &amp;&amp; startDateT!= null &amp;&amp; registrationCloseDate &gt; startDateT.date" />
     <error message="Registration Open date must be before event start date"
-        if="registrationOpenDate!=null &amp;&amp; startDateT!= null &amp;&amp; registrationOpenDate &gt; startDateT.date"/>
+      if="registrationOpenDate!=null &amp;&amp; startDateT!= null &amp;&amp; registrationOpenDate &gt; startDateT.date" />
   </action-validate>
 
   <action-method name="action-method-for-amount-in-event-registration">
@@ -73,14 +110,14 @@
     <view-param name="popup-save" value="false" />
     <context name="showRecord" expr="eval: id" />
   </action-view>
-  
+
   <action-report output="event-${date}-${time}" name="action-report-print-event-on-click"
     design="event.rptdesign">
     <param name="eventId" expr="eval: id" />
   </action-report>
-  
+
   <action-method name="action-method-for-send-email">
-  <call class="com.axelor.event.web.EventController" method="sendEmail"/>
+    <call class="com.axelor.event.web.EventController" method="sendEmail" />
   </action-method>
 
 </object-views>
