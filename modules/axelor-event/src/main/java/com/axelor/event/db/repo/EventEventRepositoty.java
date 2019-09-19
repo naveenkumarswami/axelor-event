@@ -1,7 +1,6 @@
 package com.axelor.event.db.repo;
 
 import java.util.Map;
-import com.axelor.event.db.Event;
 
 public class EventEventRepositoty extends EventRepository {
   

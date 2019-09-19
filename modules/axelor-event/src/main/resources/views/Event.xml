@@ -81,7 +81,6 @@
   <field name="reference"/>
   </calendar>
 
-
   <action-method name="action-method-event-validate-registration-on-save">
     <call class="com.axelor.event.web.EventController" method="validateRegistration" />
   </action-method>

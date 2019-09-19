@@ -2,6 +2,7 @@ package com.axelor.event.service;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import com.axelor.apps.message.db.Message;
@@ -64,26 +65,23 @@ public class EventServiceImpl implements EventService {
   public Boolean importCsvFile(File file, Map<String, Object> importContext) {
 
     // List<EventRegistration> eventRegistrationList = event.getEventRegistrationList();
-
-    Importer importfile =
-        new CSVImporter(
-            "/home/axelor/Projects/ADK Test/axelor-test/modules/axelor-event/src/main/resources/demo/input-config.xml",
-            file.getParent());
-    Listener listener =
-        new Listener() {
-
-          @Override
-          public void imported(Integer total, Integer success) {}
-
-          @Override
-          public void imported(Model bean) {}
-
-          @Override
-          public void handle(Model bean, Exception e) {}
-        };
+    System.out.println(Paths.get("").toAbsolutePath().toString());
+    Importer importfile = new CSVImporter("/home/axelor/Projects/ADK Test/axelor-test/modules/axelor-event/data/input-config.xml", file.getParent());
+//    Listener listener =
+//        new Listener() {
+//
+//          @Override
+//          public void imported(Integer total, Integer success) {}
+//
+//          @Override
+//          public void imported(Model bean) {}
+//
+//          @Override
+//          public void handle(Model bean, Exception e) {}
+//        };
 
     importfile.setContext(importContext);
-    importfile.addListener(listener);
+//    importfile.addListener(listener);
     importfile.run();
     return true;
   }
