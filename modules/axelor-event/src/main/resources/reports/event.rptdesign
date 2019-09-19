@@ -1432,7 +1432,20 @@ Event
                         <property name="resultSetColumn">registration_close_date</property>
                     </data>
                 </cell>
-                <cell id="253"/>
+                <cell id="253">
+                    <data id="268">
+                        <property name="dataSet">Event</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">capacity</property>
+                                <text-property name="displayName">capacity</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["capacity"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">capacity</property>
+                    </data>
+                </cell>
             </row>
             <row id="254">
                 <cell id="255">
