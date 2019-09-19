@@ -3,7 +3,6 @@ package com.axelor.event.service;
 import java.time.Period;
 import java.util.Comparator;
 import java.util.List;
-import com.axelor.db.Query;
 import com.axelor.event.db.Discount;
 import com.axelor.event.db.Event;
 import com.axelor.event.db.EventRegistration;
@@ -86,15 +85,5 @@ public class EventRegistrationServiceImpl implements EventRegistrationService {
             && event.getCapacity() <= event.getEventRegistrationList().size())
         || (event.getEventRegistrationList() == null && event.getCapacity() == null
             || event.getCapacity() <= 0);
-  }
-
-  @Override
-  @Transactional
-  public void removeEventRegistration() {
-
-    Query<EventRegistration> eventRegistrationList = eventRegistrationRepository.all();
-    eventRegistrationList.fetchSteam().filter(a -> a.getEvent()==null).forEach(a -> eventRegistrationRepository.remove(a));
-
-    return ;
   }
 }
