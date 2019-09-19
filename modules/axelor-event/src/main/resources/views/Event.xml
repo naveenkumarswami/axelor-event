@@ -73,7 +73,7 @@
     <view-param name="popup-save" value="false" />
     <context name="showRecord" expr="eval: id" />
   </action-view>
-
+  
   <action-report output="event-${date}-${time}" name="action-report-print-event-on-click"
     design="event.rptdesign">
     <param name="eventId" expr="eval: id" />

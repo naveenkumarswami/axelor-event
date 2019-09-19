@@ -18,6 +18,7 @@ import com.axelor.rpc.ActionResponse;
 import com.google.common.io.Files;
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -71,42 +72,26 @@ public class EventController {
   public void updateAmount(ActionRequest request, ActionResponse response) {
 
     Event event = request.getContext().asType(Event.class);
-    
-//    System.err.println(request.getContext().get("showRecord") ); 
-    Integer id = (Integer) request.getContext().get("showRecord");
-    if(id!=null) {
-      event = eventRepository.find(id.longValue());
-      event = eventService.compute(event);
-      eventRepository.save(event);
-      return ;
-    }
+
     event = eventService.compute(event);
     response.setValues(event);
   }
 
   public void setRegistration(ActionRequest request, ActionResponse response) {
 
-    //Event event = request.getContext().asType(Event.class);
-
     Integer id = (Integer) request.getContext().get("showRecord");
-    System.err.println("id: " + id ); 
-    
-    request.getContext().put("eventId", id.longValue());
-    
+
+    Map<String, Object> importContext = new HashMap<String, Object>();
+    importContext.put("_eventId", id.longValue());
+
     MetaFile metaFile =
         metaFileRepo.find(
             Long.valueOf(((Map) request.getContext().get("importFile")).get("id").toString()));
     File csvFile = MetaFiles.getPath(metaFile).toFile();
 
     if (Files.getFileExtension(csvFile.getName()).equals("csv")) {
-      File dataDir = Files.createTempDir();
-      System.err.println(dataDir.getAbsolutePath());
-      //      System.err.println(csvFile.getParent());
-      Event event = eventRepository.find(id.longValue());
-      event = eventService.importCsvFile(csvFile , id , event);
+      eventService.importCsvFile(csvFile, importContext);
       csvFile.delete();
-      eventRegistrationService.removeEventRegistration();
-      System.err.println(event); 
       response.setFlash(I18n.get(IExceptionMessage.IMPORT_COMPLETED_MESSAGE));
     } else {
       response.setFlash(I18n.get(IExceptionMessage.INVALID_DATA_FORMAT_ERROR));
@@ -123,17 +108,17 @@ public class EventController {
 
       for (EventRegistration eventRegistration : eventRegistrationList) {
         eventRegistration = eventRegistrationRepository.find(eventRegistration.getId());
-        
-        if(eventRegistration.getEmail()!=null && eventRegistration.getEmailSend() != true) {
 
-        Message message = eventService.sendConfirmationEmail(eventRegistration);
-        if (message != null ) {
-          response.setFlash(I18n.get(IExceptionMessage.EMAIL_SUCCESS));
-          eventRegistration.setEmailSend(true);
-          eventRegistrationRepository.save(eventRegistration);
-        } else {
-          response.setFlash(I18n.get(IExceptionMessage.EMAIL_ERROR2));
-        }
+        if (eventRegistration.getEmail() != null && eventRegistration.getEmailSend() != true) {
+
+          Message message = eventService.sendConfirmationEmail(eventRegistration);
+          if (message != null) {
+            response.setFlash(I18n.get(IExceptionMessage.EMAIL_SUCCESS));
+            eventRegistration.setEmailSend(true);
+            eventRegistrationRepository.save(eventRegistration);
+          } else {
+            response.setFlash(I18n.get(IExceptionMessage.EMAIL_ERROR2));
+          }
         }
       }
     } catch (Exception e) {

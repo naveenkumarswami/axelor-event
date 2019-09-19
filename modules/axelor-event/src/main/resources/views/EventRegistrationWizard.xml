@@ -7,7 +7,7 @@
     <panel title="Overview">
       <field name="importFile" type="many-to-one" x-target="com.axelor.meta.db.MetaFile"
         x-target-name="metaFile" widget="binary-link"/>
-      <button name="import" title="Import" onClick="action-for-import-file-on-click,action-method-for-amount-in-event-registration,close" showIf="importFile"/>
+      <button name="import" title="Import" onClick="action-for-import-file-on-click,close" showIf="importFile"/>
     </panel>
   </form>
 

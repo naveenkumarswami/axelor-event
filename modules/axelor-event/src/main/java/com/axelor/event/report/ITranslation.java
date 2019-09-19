@@ -1,4 +1,3 @@
-
 package com.axelor.event.report;
 
 public interface ITranslation {
@@ -14,7 +13,7 @@ public interface ITranslation {
   public static final String AMOUNT_COLLECTED = /*$$(*/ "Event.amountCollected"; /*)*/
   public static final String TOTAL_DISCOUNT = /*$$(*/ "Event.totalDiscount"; /*)*/
   public static final String EMAIL = /*$$(*/ "EventRegistration.email"; /*)*/
-  public static final String REGISTRATION_DATE = /*$$(*/ "EventRegistration.registrationDateT"; /*)*/
+  public static final String REGISTRATION_DATE = /*$$(*/
+      "EventRegistration.registrationDateT"; /*)*/
   public static final String EVENT_REGISTRATION_AMOUNT = /*$$(*/ "EventRegistration.amount"; /*)*/
-
 }

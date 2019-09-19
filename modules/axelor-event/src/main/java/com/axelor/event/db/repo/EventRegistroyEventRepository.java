@@ -6,8 +6,6 @@ public class EventRegistroyEventRepository extends EventRegistrationRepository{
   
   @Override
   public EventRegistration save(EventRegistration entity) {
-    
-    
     return super.save(entity);
   }
 }
