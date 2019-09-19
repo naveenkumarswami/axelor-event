@@ -16,7 +16,7 @@
   </grid>
 
   <form model="com.axelor.event.db.Event" title="Event" name="event-form"
-    onSave="action-method-event-validate-registration-on-save">
+    onSave="action-validate-date,action-method-event-validate-registration-on-save">
 
     <toolbar>
       <button name="importRegistration" title="Import Registration" onClick="action-view-for-registration-popup"
@@ -56,6 +56,8 @@
       if="registrationOpenDate!= null &amp;&amp; registrationCloseDate!=null &amp;&amp;  registrationOpenDate &gt; registrationCloseDate" />
     <error message="Registration close date must be before event start date"
       if="registrationCloseDate!=null &amp;&amp; startDateT!= null &amp;&amp; registrationCloseDate &gt; startDateT.date" />
+    <error message="Registration Open date must be before event start date"
+        if="registrationOpenDate!=null &amp;&amp; startDateT!= null &amp;&amp; registrationOpenDate &gt; startDateT.date"/>
   </action-validate>
 
   <action-method name="action-method-for-amount-in-event-registration">
