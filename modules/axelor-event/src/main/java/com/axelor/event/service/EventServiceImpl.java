@@ -43,6 +43,7 @@ public class EventServiceImpl implements EventService {
     System.err.println("test12334  :  " + eventRegistrationList);
     BigDecimal totalAmount = BigDecimal.ZERO;
     BigDecimal totalDiscount = BigDecimal.ZERO;
+    int size = 0;
 
     if (eventRegistrationList != null) {
 
@@ -56,10 +57,12 @@ public class EventServiceImpl implements EventService {
               .getEventFees()
               .multiply(new BigDecimal(eventRegistrationList.size()))
               .subtract(totalAmount);
-    }
+    
     System.err.println("totalAmount :" + totalAmount);
     System.err.println("totalDiscount :" + totalDiscount);
-    event.setTotalEntry(eventRegistrationList.size());
+    size = eventRegistrationList.size() ;
+    }
+    event.setTotalEntry(size);
     event.setAmountCollected(totalAmount);
     event.setTotalDiscount(totalDiscount);
 
