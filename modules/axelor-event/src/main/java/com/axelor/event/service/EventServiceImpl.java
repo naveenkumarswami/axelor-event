@@ -1,10 +1,13 @@
 package com.axelor.event.service;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.io.IOUtils;
 import com.axelor.apps.message.db.Message;
 import com.axelor.apps.message.db.repo.TemplateRepository;
 import com.axelor.apps.message.service.TemplateMessageService;
@@ -16,8 +19,10 @@ import com.axelor.event.db.Event;
 import com.axelor.event.db.EventRegistration;
 import com.axelor.event.db.repo.EventRegistrationRepository;
 import com.axelor.event.db.repo.EventRepository;
+import com.axelor.meta.MetaFiles;
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
+import com.google.common.io.Files;
 
 public class EventServiceImpl implements EventService {
 
@@ -64,9 +69,26 @@ public class EventServiceImpl implements EventService {
   @Override
   public Boolean importCsvFile(File file, Map<String, Object> importContext) {
 
-    // List<EventRegistration> eventRegistrationList = event.getEventRegistrationList();
-    System.out.println(Paths.get("").toAbsolutePath().toString());
-    Importer importfile = new CSVImporter("/home/axelor/Projects/ADK Test/axelor-test/modules/axelor-event/data/input-config.xml", file.getParent());
+    File tmpDir = null;
+    File configXML = null;
+
+    try {
+      tmpDir = Files.createTempDir();
+      configXML = new File(tmpDir, "input-config.xml");
+      InputStream bindInputStream =
+          this.getClass().getResourceAsStream("/demo/input-config.xml");
+
+      if (bindInputStream == null) {
+        throw new Error("No 'input-config.xml' file found.");
+      }
+      FileOutputStream outputstream = new FileOutputStream(configXML);
+      IOUtils.copy(bindInputStream, outputstream);
+
+    }catch (Exception e) {
+      e.printStackTrace();
+    }
+    
+    Importer importfile = new CSVImporter(tmpDir + "/input-config.xml", file.getParent());
 //    Listener listener =
 //        new Listener() {
 //

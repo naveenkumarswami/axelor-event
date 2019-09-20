@@ -16,7 +16,7 @@
   </grid>
 
   <form model="com.axelor.event.db.Event" title="Event" name="event-form"
-    onSave="action-validate-date,action-method-event-validate-registration-on-save">
+    onSave="action-validate-date,action-method-event-validate-registration-on-save" onLoad="action-method-for-amount-in-event-registration">
 
     <toolbar>
       <button name="importRegistration" title="Import Registration" onClick="action-view-for-registration-popup"
