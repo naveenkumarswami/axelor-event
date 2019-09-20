@@ -107,6 +107,7 @@
     <view-param name="show-toolbar" value="false" />
     <view-param name="show-confirm" value="false" />
     <view-param name="popup-save" value="false" />
+    <view-param name="popup" value="reload" />
     <context name="showRecord" expr="eval: id" />
   </action-view>
 
