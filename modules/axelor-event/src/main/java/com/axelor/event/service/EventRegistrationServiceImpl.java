@@ -60,16 +60,15 @@ public class EventRegistrationServiceImpl implements EventRegistrationService {
   @Override
   public boolean checkRegistrationDate(Event event, EventRegistration eventRegistration) {
 
-    return event.getRegistrationOpenDate() != null
-            && eventRegistration.getRegistrationDateT() != null
-            && (event
-                    .getRegistrationOpenDate()
-                    .isAfter(eventRegistration.getRegistrationDateT().toLocalDate())
-                || event
-                    .getRegistrationCloseDate()
-                    .isBefore(eventRegistration.getRegistrationDateT().toLocalDate()))
-        || event.getRegistrationOpenDate() == null
-        || eventRegistration.getRegistrationDateT() == null;
+    return event.getRegistrationOpenDate() == null
+        || event.getRegistrationCloseDate() == null
+        || eventRegistration.getRegistrationDateT() == null
+        || event
+            .getRegistrationOpenDate()
+            .isAfter(eventRegistration.getRegistrationDateT().toLocalDate())
+        || event
+            .getRegistrationCloseDate()
+            .isBefore(eventRegistration.getRegistrationDateT().toLocalDate());
   }
 
   @Override

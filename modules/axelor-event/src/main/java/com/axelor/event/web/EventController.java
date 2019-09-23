@@ -36,24 +36,28 @@ public class EventController {
     Event event = request.getContext().asType(Event.class);
     try {
 
-      List<EventRegistration> eventReigstrationList =
-          event
-              .getEventRegistrationList()
-              .stream()
-              .filter(eventRegistration -> !eventRegistrationService.checkRegistrationDate(event, eventRegistration))
-              .collect(Collectors.toList());
+      List<EventRegistration> eventRegist = event.getEventRegistrationList();
+      if (eventRegist != null) {
 
-      if (event.getEventRegistrationList().size() != eventReigstrationList.size()) {
-        event.setEventRegistrationList(eventReigstrationList);
-        response.setValues(event);
-        response.setFlash(I18n.get(IExceptionMessage.REGISTRATION_DATE));
-      }
+        List<EventRegistration> eventReigstrationList =
+            eventRegist
+                .stream()
+                .filter(
+                    eventRegistration ->
+                        !eventRegistrationService.checkRegistrationDate(event, eventRegistration))
+                .collect(Collectors.toList());
 
-      if (event.getEventRegistrationList() != null
-          && event.getCapacity() < event.getEventRegistrationList().size()) {
-        event.setEventRegistrationList(eventReigstrationList.subList(0, event.getCapacity()));
-        response.setValues(event);
-        response.setFlash(I18n.get(IExceptionMessage.REGISTRATION_EXCEEDS_CAPACITY));
+        if (eventRegist.size() != eventReigstrationList.size()) {
+          event.setEventRegistrationList(eventReigstrationList);
+          response.setValues(event);
+          response.setFlash(I18n.get(IExceptionMessage.REGISTRATION_DATE));
+        }
+
+        if (event.getCapacity() < eventRegist.size()) {
+          event.setEventRegistrationList(eventReigstrationList.subList(0, event.getCapacity()));
+          response.setValues(event);
+          response.setFlash(I18n.get(IExceptionMessage.REGISTRATION_EXCEEDS_CAPACITY));
+        }
       }
     } catch (Exception e) {
       e.printStackTrace();
