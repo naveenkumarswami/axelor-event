@@ -6,6 +6,7 @@ import com.axelor.event.db.Event;
 import com.axelor.event.db.EventRegistration;
 import com.axelor.event.db.repo.EventRegistrationRepository;
 import com.axelor.event.exception.IExceptionMessage;
+import com.axelor.event.service.EventRegistrationService;
 import com.axelor.event.service.EventService;
 import com.axelor.i18n.I18n;
 import com.axelor.meta.MetaFiles;
@@ -28,6 +29,7 @@ public class EventController {
   @Inject MetaFiles metaFiles;
   @Inject EventService eventService;
   @Inject EventRegistrationRepository eventRegistrationRepository;
+  @Inject EventRegistrationService eventRegistrationService;
 
   public void validateRegistration(ActionRequest request, ActionResponse response) {
 
@@ -38,15 +40,7 @@ public class EventController {
           event
               .getEventRegistrationList()
               .stream()
-              .filter(
-                  i ->
-                      event.getRegistrationOpenDate() != null
-                          && !event
-                              .getRegistrationOpenDate()
-                              .isAfter(i.getRegistrationDateT().toLocalDate())
-                          && !event
-                              .getRegistrationCloseDate()
-                              .isBefore(i.getRegistrationDateT().toLocalDate()))
+              .filter(eventRegistration -> !eventRegistrationService.checkRegistrationDate(event, eventRegistration))
               .collect(Collectors.toList());
 
       if (event.getEventRegistrationList().size() != eventReigstrationList.size()) {
@@ -57,7 +51,9 @@ public class EventController {
 
       if (event.getEventRegistrationList() != null
           && event.getCapacity() < event.getEventRegistrationList().size()) {
-        response.setError(I18n.get(IExceptionMessage.REGISTRATION_EXCEEDS_CAPACITY));
+        event.setEventRegistrationList(eventReigstrationList.subList(0, event.getCapacity()));
+        response.setValues(event);
+        response.setFlash(I18n.get(IExceptionMessage.REGISTRATION_EXCEEDS_CAPACITY));
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -88,6 +84,7 @@ public class EventController {
       csvFile.delete();
       response.setFlash(I18n.get(IExceptionMessage.IMPORT_COMPLETED_MESSAGE));
     } else {
+      csvFile.delete();
       response.setFlash(I18n.get(IExceptionMessage.INVALID_DATA_FORMAT_ERROR));
     }
   }

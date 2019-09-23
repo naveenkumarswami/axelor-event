@@ -1,7 +1,7 @@
-name,registrationDateT
-event1,26/08/19 18:30
-event2,20/08/19 18:30
-event3,20/09/19 18:30
-event4,22/08/19 18:22
-event5,22/08/19 18:23
-event6,22/08/19 18:00
+name,registrationDateT,email
+event1,02/08/19 18:30,nsw.axelor@gmail.com
+event2,20/08/19 18:30,nsw.axelor@gmail.com
+event3,20/09/19 18:30,nsw.axelor@gmail.com
+event4,22/08/19 18:22,nsw.axelor@gmail.com
+event5,22/08/19 18:23,nsw.axelor@gmail.com
+event6,22/08/19 18:00,nsw.axelor@gmail.com

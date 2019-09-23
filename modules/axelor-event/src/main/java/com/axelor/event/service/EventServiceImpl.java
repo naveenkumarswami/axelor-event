@@ -71,12 +71,14 @@ public class EventServiceImpl implements EventService {
       InputStream bindInputStream = this.getClass().getResourceAsStream("/demo/input-config.xml");
 
       if (bindInputStream == null) {
+        file.delete();
         throw new Error(I18n.get(IExceptionMessage.CONFIG_FILE_MISSING));
       }
       FileOutputStream outputstream = new FileOutputStream(configXML);
       IOUtils.copy(bindInputStream, outputstream);
 
     } catch (Exception e) {
+      file.delete();
       e.printStackTrace();
     }
 
