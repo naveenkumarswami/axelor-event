@@ -16,6 +16,7 @@ import com.axelor.event.db.Event;
 import com.axelor.event.db.EventRegistration;
 import com.axelor.event.db.repo.EventRegistrationRepository;
 import com.axelor.event.db.repo.EventRepository;
+import com.axelor.event.exception.IExceptionMessage;
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
 import com.google.common.io.Files;
@@ -78,7 +79,7 @@ public class EventServiceImpl implements EventService {
           this.getClass().getResourceAsStream("/demo/input-config.xml");
 
       if (bindInputStream == null) {
-        throw new Error("No 'input-config.xml' file found.");
+        throw new Error(IExceptionMessage.CONFIG_FILE_MISSING);
       }
       FileOutputStream outputstream = new FileOutputStream(configXML);
       IOUtils.copy(bindInputStream, outputstream);
