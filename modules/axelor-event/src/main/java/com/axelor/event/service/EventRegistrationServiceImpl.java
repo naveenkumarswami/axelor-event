@@ -17,22 +17,12 @@ public class EventRegistrationServiceImpl implements EventRegistrationService {
   @Override
   public EventRegistration compute(Event event, EventRegistration eventRegistration) {
 
-    //    int diffCloseAndRegist = event.getRegistrationCloseDate().getDayOfMonth() -
-    // eventRegistration.getRegistrationDateT().getDayOfMonth();
-
-    //    System.out.println("diff :"+diff );
-
     Integer diffCloseAndRegist =
         Period.between(
                 eventRegistration.getRegistrationDateT().toLocalDate(),
                 event.getRegistrationCloseDate())
             .getDays();
-    //    System.out.println("diff :" + diff);
-    //    Integer diffCloseAndRegist =
-    //        event
-    //            .getRegistrationCloseDate()
-    //            .compareTo(eventRegistration.getRegistrationDateT().toLocalDate());
-    System.err.println("differ :" + diffCloseAndRegist);
+
     List<Discount> discountList = event.getDiscountList();
     Discount discount = null;
     if (discountList != null) {
@@ -45,7 +35,6 @@ public class EventRegistrationServiceImpl implements EventRegistrationService {
     }
     if (discount != null) {
       eventRegistration.setAmount(event.getEventFees().subtract(discount.getDiscountAmount()));
-      System.err.println(discount);
     } else {
       eventRegistration.setAmount(event.getEventFees());
     }
@@ -59,7 +48,6 @@ public class EventRegistrationServiceImpl implements EventRegistrationService {
 
     List<EventRegistration> eventRegistrationList = event.getEventRegistrationList();
     eventRegistration = eventRegistrationRepository.find(eventRegistration.getId());
-    System.err.println(eventRegistration);
     eventRegistrationList.add(eventRegistration);
     event.setEventRegistrationList(eventRegistrationList);
     eventRegistration.setEvent(event);

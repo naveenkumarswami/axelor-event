@@ -48,7 +48,6 @@ public class EventRegistrationController {
   public void addIntoEvent(ActionRequest request, ActionResponse response) {
 
     EventRegistration eventRegistration = request.getContext().asType(EventRegistration.class);
-    System.err.println(eventRegistration.getId());
 
     Event event = eventRegistration.getEvent();
     eventRegistration = eventRegistrationService.addEvent(event, eventRegistration);

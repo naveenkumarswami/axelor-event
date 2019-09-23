@@ -24,7 +24,6 @@ public class EventRegistrationImporter {
 
     Long id = (Long) values.get("_eventId");
     Event event = eventRepository.find(id);
-    System.err.println("event :" + event);
     
     try {
 
@@ -44,10 +43,6 @@ public class EventRegistrationImporter {
       event = eventRepository.save(event);
       event = eventService.compute(event);
       eventRepository.save(event);
-      //    values.forEach(
-      //        (key, value) -> {
-      //          System.err.println("key :"+key + " value  :" + value);
-      //        });
       return eventRegistration;
     }
     }catch (Exception e) {

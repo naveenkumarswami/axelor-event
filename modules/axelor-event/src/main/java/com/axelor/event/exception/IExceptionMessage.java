@@ -19,7 +19,6 @@ public interface IExceptionMessage {
   static final String EMAIL_ERROR2 = /*$$(*/ "Error in sending emails" /*)*/;
 
   static final String EMAIL_SUCCESS = /*$$(*/ "Emails sent successfully" /*)*/;
-  
+
   static final String CONFIG_FILE_MISSING = /*$$(*/ "input-config.xml file missing" /*)*/;
-  
 }

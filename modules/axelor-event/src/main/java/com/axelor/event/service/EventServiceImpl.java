@@ -14,8 +14,6 @@ import com.axelor.data.Importer;
 import com.axelor.data.csv.CSVImporter;
 import com.axelor.event.db.Event;
 import com.axelor.event.db.EventRegistration;
-import com.axelor.event.db.repo.EventRegistrationRepository;
-import com.axelor.event.db.repo.EventRepository;
 import com.axelor.event.exception.IExceptionMessage;
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
@@ -25,9 +23,6 @@ public class EventServiceImpl implements EventService {
 
   protected TemplateMessageService templateMessageService;
   @Inject TemplateRepository templateRepository;
-  @Inject EventRepository eventRepository;
-  @Inject EventRegistrationService eventRegistrationService;
-  @Inject EventRegistrationRepository eventRegistrationRepository;
 
   @Inject
   public EventServiceImpl(TemplateMessageService templateMessageService) {
@@ -37,7 +32,6 @@ public class EventServiceImpl implements EventService {
   @Override
   public Event compute(Event event) {
     List<EventRegistration> eventRegistrationList = event.getEventRegistrationList();
-    System.err.println("test12334  :  " + eventRegistrationList);
     BigDecimal totalAmount = BigDecimal.ZERO;
     BigDecimal totalDiscount = BigDecimal.ZERO;
     int size = 0;
@@ -54,10 +48,8 @@ public class EventServiceImpl implements EventService {
               .getEventFees()
               .multiply(new BigDecimal(eventRegistrationList.size()))
               .subtract(totalAmount);
-    
-    System.err.println("totalAmount :" + totalAmount);
-    System.err.println("totalDiscount :" + totalDiscount);
-    size = eventRegistrationList.size() ;
+
+      size = eventRegistrationList.size();
     }
     event.setTotalEntry(size);
     event.setAmountCollected(totalAmount);
@@ -75,8 +67,7 @@ public class EventServiceImpl implements EventService {
     try {
       tmpDir = Files.createTempDir();
       configXML = new File(tmpDir, "input-config.xml");
-      InputStream bindInputStream =
-          this.getClass().getResourceAsStream("/demo/input-config.xml");
+      InputStream bindInputStream = this.getClass().getResourceAsStream("/demo/input-config.xml");
 
       if (bindInputStream == null) {
         throw new Error(IExceptionMessage.CONFIG_FILE_MISSING);
@@ -84,26 +75,13 @@ public class EventServiceImpl implements EventService {
       FileOutputStream outputstream = new FileOutputStream(configXML);
       IOUtils.copy(bindInputStream, outputstream);
 
-    }catch (Exception e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
-    
+
     Importer importfile = new CSVImporter(tmpDir + "/input-config.xml", file.getParent());
-//    Listener listener =
-//        new Listener() {
-//
-//          @Override
-//          public void imported(Integer total, Integer success) {}
-//
-//          @Override
-//          public void imported(Model bean) {}
-//
-//          @Override
-//          public void handle(Model bean, Exception e) {}
-//        };
 
     importfile.setContext(importContext);
-//    importfile.addListener(listener);
     importfile.run();
     return true;
   }
@@ -111,8 +89,6 @@ public class EventServiceImpl implements EventService {
   @Override
   @Transactional
   public Message sendConfirmationEmail(EventRegistration eventRegistration) {
-
-    System.err.println(templateMessageService);
 
     try {
       return templateMessageService.generateAndSendMessage(

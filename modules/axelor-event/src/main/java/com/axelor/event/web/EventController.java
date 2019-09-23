@@ -5,9 +5,7 @@ import com.axelor.apps.message.db.Message;
 import com.axelor.event.db.Event;
 import com.axelor.event.db.EventRegistration;
 import com.axelor.event.db.repo.EventRegistrationRepository;
-import com.axelor.event.db.repo.EventRepository;
 import com.axelor.event.exception.IExceptionMessage;
-import com.axelor.event.service.EventRegistrationService;
 import com.axelor.event.service.EventService;
 import com.axelor.i18n.I18n;
 import com.axelor.meta.MetaFiles;
@@ -29,9 +27,7 @@ public class EventController {
 
   @Inject MetaFiles metaFiles;
   @Inject EventService eventService;
-  @Inject EventRepository eventRepository;
   @Inject EventRegistrationRepository eventRegistrationRepository;
-  @Inject EventRegistrationService eventRegistrationService;
 
   public void validateRegistration(ActionRequest request, ActionResponse response) {
 
@@ -72,7 +68,6 @@ public class EventController {
   public void updateAmount(ActionRequest request, ActionResponse response) {
 
     Event event = request.getContext().asType(Event.class);
-
     event = eventService.compute(event);
     response.setValues(event);
   }
@@ -80,7 +75,6 @@ public class EventController {
   public void setRegistration(ActionRequest request, ActionResponse response) {
 
     Integer id = (Integer) request.getContext().get("showRecord");
-
     Map<String, Object> importContext = new HashMap<String, Object>();
     importContext.put("_eventId", id.longValue());
 
@@ -117,7 +111,7 @@ public class EventController {
             eventRegistration.setEmailSend(true);
             eventRegistrationRepository.save(eventRegistration);
           } else {
-            response.setFlash(I18n.get(IExceptionMessage.EMAIL_ERROR2));
+            response.setFlash(I18n.get(IExceptionMessage.EMAIL_ERROR1));
           }
         }
       }
