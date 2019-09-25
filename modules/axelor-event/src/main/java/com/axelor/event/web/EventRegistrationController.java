@@ -41,6 +41,7 @@ public class EventRegistrationController {
       }
 
     } catch (Exception e) {
+      response.fail(I18n.get(IExceptionMessage.EVENTREGISTRION_EMPTY));
       e.printStackTrace();
     }
   }

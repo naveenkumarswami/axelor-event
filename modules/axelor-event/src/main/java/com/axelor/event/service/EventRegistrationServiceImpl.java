@@ -49,11 +49,13 @@ public class EventRegistrationServiceImpl implements EventRegistrationService {
   @Transactional
   public EventRegistration addEvent(Event event, EventRegistration eventRegistration) {
 
-    List<EventRegistration> eventRegistrationList = event.getEventRegistrationList();
-    eventRegistration = eventRegistrationRepository.find(eventRegistration.getId());
-    eventRegistrationList.add(eventRegistration);
-    event.setEventRegistrationList(eventRegistrationList);
-    eventRegistration.setEvent(event);
+    if (event != null) {
+      List<EventRegistration> eventRegistrationList = event.getEventRegistrationList();
+      eventRegistration = eventRegistrationRepository.find(eventRegistration.getId());
+      eventRegistrationList.add(eventRegistration);
+      event.setEventRegistrationList(eventRegistrationList);
+      eventRegistration.setEvent(event);
+    }
     return eventRegistration;
   }
 
@@ -74,9 +76,8 @@ public class EventRegistrationServiceImpl implements EventRegistrationService {
   @Override
   public boolean chechExceedCondition(Event event, EventRegistration eventRegistration) {
 
-    return (event.getEventRegistrationList() != null
-            && event.getCapacity() <= event.getEventRegistrationList().size())
-        || (event.getEventRegistrationList() == null && event.getCapacity() == null
-            || event.getCapacity() <= 0);
+    return event.getCapacity() <= 0
+        || event.getEventRegistrationList() == null
+        || event.getCapacity() <= event.getEventRegistrationList().size();
   }
 }

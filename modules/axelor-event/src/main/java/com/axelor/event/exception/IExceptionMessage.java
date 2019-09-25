@@ -20,5 +20,7 @@ public interface IExceptionMessage {
 
   static final String EMAIL_SUCCESS = /*$$(*/ "Emails sent successfully" /*)*/;
 
-  static final String CONFIG_FILE_MISSING = /*$$(*/ "input-config.xml file missing" /*)*/;
+  static final String CONFIG_FILE_MISSING = /*$$(*/ "Input-config.xml file missing" /*)*/;
+  
+  static final String EVENTREGISTRION_EMPTY = /*$$(*/ "Event Registration Empty" /*)*/;
 }

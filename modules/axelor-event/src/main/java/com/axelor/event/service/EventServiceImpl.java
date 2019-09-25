@@ -3,10 +3,13 @@ package com.axelor.event.service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.axelor.apps.message.db.Message;
 import com.axelor.apps.message.db.repo.TemplateRepository;
 import com.axelor.apps.message.service.TemplateMessageService;
@@ -24,6 +27,8 @@ public class EventServiceImpl implements EventService {
 
   protected TemplateMessageService templateMessageService;
   @Inject TemplateRepository templateRepository;
+
+  private final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
   @Inject
   public EventServiceImpl(TemplateMessageService templateMessageService) {
@@ -55,7 +60,12 @@ public class EventServiceImpl implements EventService {
     event.setTotalEntry(size);
     event.setAmountCollected(totalAmount);
     event.setTotalDiscount(totalDiscount);
-
+    log.debug(
+        "Event : Total Entry : {}, Amount Collected : {}, total Discount : {}",
+        event.getTotalEntry(),
+        event.getAmountCollected(),
+        event.getTotalDiscount());
+    
     return event;
   }
 
